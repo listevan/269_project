@@ -1,0 +1,20 @@
+[project]
+name = "token-replay-pilot"
+version = "0.1.0"
+description = "How useful are the tokens negative-only training pushes down? vLLM + transformers stages (Colab), analysis (laptop)."
+requires-python = ">=3.11"
+dependencies = [
+    "math-verify>=0.8",
+    "numpy",
+    "pandas",
+]
+
+[dependency-groups]
+dev = ["pytest", "nbformat"]
+gpu = ["vllm>=0.10", "transformers>=4.51", "datasets>=3.0"]   # the Colab notebook installs these itself
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
