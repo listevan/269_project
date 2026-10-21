@@ -281,7 +281,7 @@ def mixed_problems(rollouts_table):
     return int(tot.some_correct), int(tot.problems), per
 
 
-def gates(tables, pf=None, agreement=None, min_mixed=2 / 3):
+def gates(tables, pf=None, agreement=None, min_mixed=20):
     """The pilot's pass/fail checks, in order: data, wiring, noise, signal. A gate appears once its inputs
     exist, so right after stage 1 the table holds gate 0 alone."""
     out = []
@@ -289,7 +289,8 @@ def gates(tables, pf=None, agreement=None, min_mixed=2 / 3):
     if rt is not None and len(rt):
         mixed, total, per = mixed_problems(rt)
         out.append(("0. enough mixed problems", f"{mixed} of {total} problems have some but not all answers "
-                    f"correct" + (f" ({per})" if per else ""), "PASS" if mixed >= min_mixed * total else "CHECK"))
+                    f"correct" + (f" ({per})" if per else "") + "; replay positions come from these",
+                    "PASS" if mixed >= min_mixed else "CHECK"))
     if agreement and agreement["n"]:
         ok = agreement["mean_abs"] < 0.02 and agreement["p99_abs"] < 0.25
         out.append(("1. scoring matches sampling", f"mean |HF - vLLM| log-prob {agreement['mean_abs']:.4f}, "

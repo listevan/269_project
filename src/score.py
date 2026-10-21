@@ -8,8 +8,10 @@ and draw the redrawn tokens.
    plus the student's entropy (OPSA scales its penalty by it). -> scores.jsonl
 2. The rules of select_rules.py on pools of --pool-size responses. -> selected.jsonl (nsr is implicit: every
    token of a failed response)
-3. --positions positions drawn uniformly from each rule's set; for each, --redraws tokens drawn from the
-   student's distribution at that position with the kept token removed. -> positions.jsonl
+3. --positions positions drawn uniformly from each rule's set, by default within responses to problems the
+   student sometimes solves (--positions-from mixed: some but not all rollouts correct; elsewhere the kept side
+   is pinned near 1 or 0 and usefulness can barely show); for each, --redraws tokens drawn from the student's
+   distribution at that position with the kept token removed. -> positions.jsonl
 Each output is skipped if it already exists, so a disconnect only repeats the unfinished step.
 """
 import argparse
@@ -120,6 +122,8 @@ def main(argv=None):
     ap.add_argument("--fraction", type=float, default=0.2, help="OPSA's token fraction f")
     ap.add_argument("--positions", type=int, default=64, help="replay positions drawn per rule")
     ap.add_argument("--redraws", type=int, default=8, help="redrawn tokens per position")
+    ap.add_argument("--positions-from", choices=("mixed", "all"), default="mixed",
+                    help="draw positions from problems with some but not all rollouts correct, or from every response")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args(argv)
 
@@ -153,9 +157,17 @@ def main(argv=None):
              opsa=sets["opsa"][r["key"]], opsa_adv=[adv[r["key"]][t] for t in sets["opsa"][r["key"]]],
              random=sets["random"][r["key"]], teacher_neg=sets["teacher_neg"][r["key"]]) for r in scores])
 
+    by_key = {r["key"]: r for r in rollouts}
+    outcomes = {}
+    for r in rollouts:
+        outcomes.setdefault(r["problem_id"], []).append(r["correct"])
+    mixed = {p for p, v in outcomes.items() if 0 < sum(v) < len(v)}
     if not (run / "positions.jsonl").exists():
-        picked = sr.sample_positions(sets, args.positions, args.seed)
-        by_key = {r["key"]: r for r in rollouts}
+        if args.positions_from == "mixed":
+            pool = {m: {k: ts for k, ts in s.items() if by_key[k]["problem_id"] in mixed} for m, s in sets.items()}
+        else:
+            pool = sets
+        picked = sr.sample_positions(pool, args.positions, args.seed)
         sc = {r["key"]: r for r in scores}
         model, head_w = load_model(student)
         out = []
@@ -171,11 +183,13 @@ def main(argv=None):
                                 lp_s=sc[key]["lp_s"][t], lp_t=sc[key]["lp_t"][t], ent_s=sc[key]["ent_s"][t],
                                 opsa_adv=adv.get(key, {}).get(t), in_sets=sr.in_sets(sets, key, t), **d))
         common.write_jsonl_atomic(run / "positions.jsonl", out)
-        print(f"{len(out)} replay positions ({args.positions} per rule, shared ones replayed once), {args.redraws} redraws each")
+        print(f"{len(out)} replay positions ({args.positions} per rule from {args.positions_from} problems, shared ones "
+              f"replayed once), {args.redraws} redraws each")
 
     common.write_json(run / "score.meta.json", dict(
         stage="score", student=student, teacher=args.teacher, pool_size=args.pool_size, fraction=args.fraction,
-        positions_per_rule=args.positions, redraws=args.redraws, seed=args.seed, n_pools=len(pools),
+        positions_per_rule=args.positions, positions_from=args.positions_from, n_mixed_problems=len(mixed),
+        redraws=args.redraws, seed=args.seed, n_pools=len(pools),
         selected_tokens={m: sum(len(v) for v in sets[m].values()) for m in sets},
         total_tokens=sum(len(r["lp_s"]) for r in scores), seconds=round(time.time() - t0)))
 

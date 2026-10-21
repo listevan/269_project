@@ -105,12 +105,12 @@ def test_gate0_from_rollouts_alone(tmp_path):
         (run / f"{name}.jsonl").unlink()
     tables, pf = analyze.analyze(run, show=None, write=False)
     assert pf is None and list(tables["gates"].gate) == ["0. enough mixed problems"]
-    assert tables["gates"].iloc[0].verdict == "CHECK"   # a third of the fake problems have rate 0.5, the rest 0 or 1
+    assert tables["gates"].iloc[0].verdict == "CHECK"   # 12 fake problems, at most 4 mixed
     rt = pd.DataFrame([dict(level=3, problems=13, all_correct=6, some_correct=7, none_correct=0),
                        dict(level="all", problems=60, all_correct=10, some_correct=45, none_correct=5)])
     g = analyze.gates({"rollouts": rt})
     assert g.iloc[0].verdict == "PASS" and "level 3: 7/13" in g.iloc[0].value
-    assert analyze.gates({"rollouts": rt.assign(some_correct=[7, 39])}).iloc[0].verdict == "CHECK"
+    assert analyze.gates({"rollouts": rt.assign(some_correct=[7, 19])}).iloc[0].verdict == "CHECK"
 
 
 def test_partial_replays_are_read(tmp_path):

@@ -34,7 +34,7 @@ Nothing is trained. Each rule is applied to the base model's own answers, and th
 | Dataset | MATH-500, 60 problems from levels 3 to 5 (fixed seed) | the abstract's math set, with exact answers to grade. At levels 3 to 5 the 1.7B model is often right but not always, which is where kept and replaced tokens can lead to different outcomes |
 | Responses | 8 per problem, T = 1.0, no top-p or top-k, at most 4,096 tokens | OPSA's training rollouts use T = 1 with no truncation of the distribution, so these are the tokens it would actually train on. 4,096 tokens covers non-thinking answers (truncation is reported) |
 | Selection pools | 16 responses, fraction f = 0.2 | OPSA selects across one GPU's share of the batch: 64 prompts × 1 sample over 4 GPUs = 16 responses, K = max(1, ⌊0.2 N⌋) |
-| Replay sample | 64 positions per rule, 8 kept + 8 replaced continuations each, a second kept pass on 25% of positions | about 4,600 continuations, enough to see large gaps only; the second pass measures replay noise |
+| Replay sample | 64 positions per rule, drawn within problems the model sometimes solves (gate 0), 8 kept + 8 replaced continuations each, a second kept pass on 25% of positions | about 4,600 continuations, enough to see large gaps only; the second pass measures replay noise. Where the model always or never succeeds the kept side is pinned near 1 or 0, so a token's usefulness can barely show |
 | Grading | math-verify on the last `\boxed{}` only | the prompt asks for a boxed answer; stray unboxed numbers get no credit |
 | Prefixes | token ids, never re-tokenized text | re-feeding decoded text can change the state being replayed |
 | Not used yet | released OPSA checkpoint `Tuwhy/Qwen3-1.7B-OPSA`; MBPP+; the trained models of study 1 | each waits until this pilot passes its gates (MBPP+ also needs sandboxed test runs) |
@@ -49,7 +49,7 @@ For a token y at position t of a response to prompt x, with probability p under 
 | Q_replaced | share of 8 continuations of x, y<sub>&lt;t</sub>, a that end correct, each a drawn from p with y removed | success if the token's probability goes elsewhere |
 | usefulness U | Q_kept − Q_replaced | U > 0: the token helps, so pushing it down hurts |
 | damage D | p (1 − p) U | expected loss in success from one unit of push on y's logit |
-| share useful | share of a rule's tokens with U > 0 | the abstract's "share of useful tokens in a method's penalized set" |
+| share useful | share of a rule's tokens (in the replayed problems) with U > 0 | the abstract's "share of useful tokens in a method's penalized set" |
 
 **Why replace by drawing from p with y removed.** A negative update on y lowers its logit, and the softmax hands
 its probability to every other token in proportion to that token's probability. Drawing from p with y removed is
@@ -67,7 +67,7 @@ behavior at other tokens through the shared weights.
 
 ### Gates (0 right after stage 1, the rest at the end)
 
-0. **Enough mixed problems.** At least two thirds of the problems have some but not all of their 8 answers correct. A problem the model always or never solves gives every one of its tokens a usefulness of zero, so it adds nothing. If this fails, set `levels` to `"4,5"` in the config cell (262 problems to draw from) or raise `samples`, change `RUN_ID`, and run stage 1 again.
+0. **Enough mixed problems.** At least 20 problems have some but not all of their 8 answers correct. Replay positions are drawn from these problems only, and the bootstrap resamples them, so there have to be enough of them. If this fails, raise `n_problems` (levels 4 and 5 alone hold 262) or `samples`, change `RUN_ID`, and run stage 1 again.
 1. **Scoring matches sampling.** Teacher-forced log-probabilities equal vLLM's for the same tokens (mean gap under 0.02).
 2. **Replay reproduces the state.** Q_kept at random positions tracks the problem's rollout success (correlation above 0.5).
 3. **Replay noise is only sampling noise.** The second kept pass differs from the first by no more than binomial noise predicts.
@@ -186,8 +186,9 @@ STAGE1 = r"""run("rollout.py", "--model", CFG["student"], "--levels", CFG["level
 
 GATE0_MD = r"""### Gate 0: enough mixed problems
 
-The replay only has signal on problems the model sometimes solves. Read this before stage 2. If the verdict is
-CHECK, set `levels` to `"4,5"` in the config cell, change `RUN_ID`, and run stage 1 again."""
+The replay only has signal on problems the model sometimes solves, so stage 2 draws its positions from those.
+Read this before stage 2. If the verdict is CHECK, raise `n_problems` in the config cell, change `RUN_ID`, and
+run stage 1 again."""
 GATE0 = r"""import importlib
 import analyze
 importlib.reload(analyze)
@@ -201,7 +202,7 @@ display(tables["gates"])
 STAGE2_MD = r"""### Stage 2: score every token, apply the four rules, draw the replacement tokens
 
 Student and teacher log-probabilities for every response token (transformers, teacher-forced), the four rules
-on pools of 16 responses, 64 positions per rule, and 8 replacement tokens per position. Writes `scores.jsonl`,
+on pools of 16 responses, 64 positions per rule from the mixed problems, and 8 replacement tokens per position. Writes `scores.jsonl`,
 `selected.jsonl`, `positions.jsonl`."""
 STAGE2 = r"""run("score.py", "--teacher", CFG["teacher"], "--pool-size", CFG["pool_size"], "--fraction", CFG["fraction"],
     "--positions", CFG["positions"], "--redraws", CFG["redraws"], "--seed", CFG["seed"])
