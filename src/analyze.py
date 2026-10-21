@@ -273,12 +273,29 @@ def examples(pf, scores, rule="opsa", k=5, width=12):
     return pd.DataFrame(rows)
 
 
-def gates(tables, pf, agreement):
-    """The pilot's pass/fail checks, in order: wiring, noise, signal."""
+def mixed_problems(rollouts_table):
+    """(mixed, total, per-level text) from rollout_table(): problems with some but not all answers correct."""
+    tot = rollouts_table[rollouts_table.level == "all"].iloc[0]
+    per = ", ".join(f"level {r.level}: {r.some_correct}/{r.problems}"
+                    for r in rollouts_table[rollouts_table.level != "all"].itertuples())
+    return int(tot.some_correct), int(tot.problems), per
+
+
+def gates(tables, pf=None, agreement=None, min_mixed=2 / 3):
+    """The pilot's pass/fail checks, in order: data, wiring, noise, signal. A gate appears once its inputs
+    exist, so right after stage 1 the table holds gate 0 alone."""
     out = []
-    ok = agreement["n"] and agreement["mean_abs"] < 0.02 and agreement["p99_abs"] < 0.25
-    out.append(("1. scoring matches sampling", f"mean |HF - vLLM| log-prob {agreement['mean_abs']:.4f}, "
-                f"99th pct {agreement['p99_abs']:.3f}", "PASS" if ok else "CHECK"))
+    rt = tables.get("rollouts")
+    if rt is not None and len(rt):
+        mixed, total, per = mixed_problems(rt)
+        out.append(("0. enough mixed problems", f"{mixed} of {total} problems have some but not all answers "
+                    f"correct" + (f" ({per})" if per else ""), "PASS" if mixed >= min_mixed * total else "CHECK"))
+    if agreement and agreement["n"]:
+        ok = agreement["mean_abs"] < 0.02 and agreement["p99_abs"] < 0.25
+        out.append(("1. scoring matches sampling", f"mean |HF - vLLM| log-prob {agreement['mean_abs']:.4f}, "
+                    f"99th pct {agreement['p99_abs']:.3f}", "PASS" if ok else "CHECK"))
+    if pf is None:
+        return pd.DataFrame(out, columns=["gate", "value", "verdict"])
     rnd = rule_rows(pf, "random")
     if len(rnd) > 2:
         r = rnd.q_kept.corr(rnd.problem_rate)
@@ -314,7 +331,7 @@ def analyze(run, n_boot=2000, write=True, show=print):
         tables["contrasts"] = contrast_table(pf, n_boot)
         tables["strata"] = strata_table(pf)
         tables["noise"] = noise_table(pf, kept_n)
-        tables["gates"] = gates(tables, pf, agreement)
+    tables["gates"] = gates(tables, pf, agreement)
     if write:
         (run / "tables").mkdir(exist_ok=True)
         for name, t in tables.items():

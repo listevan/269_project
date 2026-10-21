@@ -65,14 +65,15 @@ push barely moves a near-certain token, so D is the fairer number for comparing 
 different probability. This is a local, one-position view. It ignores how an update at one token changes
 behavior at other tokens through the shared weights.
 
-### Gates (checked in that order at the end)
+### Gates (0 right after stage 1, the rest at the end)
 
+0. **Enough mixed problems.** At least two thirds of the problems have some but not all of their 8 answers correct. A problem the model always or never solves gives every one of its tokens a usefulness of zero, so it adds nothing. If this fails, set `levels` to `"4,5"` in the config cell (262 problems to draw from) or raise `samples`, change `RUN_ID`, and run stage 1 again.
 1. **Scoring matches sampling.** Teacher-forced log-probabilities equal vLLM's for the same tokens (mean gap under 0.02).
 2. **Replay reproduces the state.** Q_kept at random positions tracks the problem's rollout success (correlation above 0.5).
 3. **Replay noise is only sampling noise.** The second kept pass differs from the first by no more than binomial noise predicts.
 4. **Signal.** OPSA's mean usefulness differs from random's, with a 95% interval that resamples problems.
 
-If 1 to 3 pass, the next step is a larger run (more positions, MBPP+) and the same replay on the released OPSA checkpoint.
+If 0 to 3 pass, the next step is a larger run (more positions, MBPP+) and the same replay on the released OPSA checkpoint.
 
 **Run order.** Set `SMOKE = True` first: about 5 minutes, checks wiring only. Then `SMOKE = False` for the pilot.
 """
@@ -193,6 +194,20 @@ STAGE1 = r"""run("rollout.py", "--model", CFG["student"], "--levels", CFG["level
     "--samples", CFG["samples"], "--max-tokens", CFG["max_tokens"], "--seed", CFG["seed"])
 """
 
+GATE0_MD = r"""### Gate 0: enough mixed problems
+
+The replay only has signal on problems the model sometimes solves. Read this before stage 2. If the verdict is
+CHECK, set `levels` to `"4,5"` in the config cell, change `RUN_ID`, and run stage 1 again."""
+GATE0 = r"""import importlib
+import analyze
+importlib.reload(analyze)
+from IPython.display import display
+
+tables, _ = analyze.analyze(OUT, show=None, write=False)
+display(tables["rollouts"])
+display(tables["gates"])
+"""
+
 STAGE2_MD = r"""### Stage 2: score every token, apply the four rules, draw the replacement tokens
 
 Student and teacher log-probabilities for every response token (transformers, teacher-forced), the four rules
@@ -251,7 +266,8 @@ def main():
     cells = [nbf.v4.new_markdown_cell(INTRO)]
     for src in (GPU, INSTALL, DRIVE, CLONE, CONFIG, HELPERS):
         cells.append(nbf.v4.new_code_cell(src.strip()))
-    for md, src in ((STAGE1_MD, STAGE1), (STAGE2_MD, STAGE2), (STAGE3_MD, STAGE3), (ANALYSIS_MD, ANALYSIS)):
+    for md, src in ((STAGE1_MD, STAGE1), (GATE0_MD, GATE0), (STAGE2_MD, STAGE2), (STAGE3_MD, STAGE3),
+                    (ANALYSIS_MD, ANALYSIS)):
         cells += [nbf.v4.new_markdown_cell(md.strip()), nbf.v4.new_code_cell(src.strip())]
     cells += [nbf.v4.new_code_cell(EXAMPLES.strip()), nbf.v4.new_markdown_cell(LAPTOP.strip())]
     for i, c in enumerate(cells):   # fixed ids, so a rebuild with no edits changes nothing

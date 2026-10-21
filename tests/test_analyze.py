@@ -99,6 +99,20 @@ def test_analyze_end_to_end(tmp_path):
     assert np.isclose(ov.loc[analyze.RULES["opsa"], analyze.RULES["opsa"]], 1.0)
 
 
+def test_gate0_from_rollouts_alone(tmp_path):
+    run = _fake_run(tmp_path)
+    for name in ("scores", "selected", "positions", "replays"):
+        (run / f"{name}.jsonl").unlink()
+    tables, pf = analyze.analyze(run, show=None, write=False)
+    assert pf is None and list(tables["gates"].gate) == ["0. enough mixed problems"]
+    assert tables["gates"].iloc[0].verdict == "CHECK"   # a third of the fake problems have rate 0.5, the rest 0 or 1
+    rt = pd.DataFrame([dict(level=3, problems=13, all_correct=6, some_correct=7, none_correct=0),
+                       dict(level="all", problems=60, all_correct=10, some_correct=45, none_correct=5)])
+    g = analyze.gates({"rollouts": rt})
+    assert g.iloc[0].verdict == "PASS" and "level 3: 7/13" in g.iloc[0].value
+    assert analyze.gates({"rollouts": rt.assign(some_correct=[7, 39])}).iloc[0].verdict == "CHECK"
+
+
 def test_partial_replays_are_read(tmp_path):
     run = _fake_run(tmp_path)
     rows = common.read_jsonl(run / "replays.jsonl")

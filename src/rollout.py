@@ -92,10 +92,16 @@ def main(argv=None):
     common.write_jsonl_atomic(run / "problems.jsonl", problems)
     common.write_jsonl_atomic(run / "rollouts.jsonl", rows)
     pass1 = sum(r["correct"] for r in rows) / len(rows)
+    per = {}
+    for r in rows:
+        per.setdefault(r["problem_id"], []).append(r["correct"])
+    n_mixed = sum(0 < sum(v) < len(v) for v in per.values())
+    n_all = sum(all(v) for v in per.values())
     meta = dict(stage="rollout", model=args.model, levels=args.levels, n_problems=len(problems), samples=args.samples,
                 max_tokens=args.max_tokens, temperature=1.0, top_p=1.0, top_k=None, thinking=False, seed=args.seed,
                 dtype=dtype, vllm=vllm.__version__, grader=grader_name(), grade_timeouts=n_timeout,
                 end_ids=end_ids, end_added=n_end_added, n_responses=len(rows), pass1=pass1,
+                problems_mixed=n_mixed, problems_all_correct=n_all, problems_none_correct=len(per) - n_mixed - n_all,
                 truncated=sum(r["truncated"] for r in rows) / len(rows),
                 mean_tokens=sum(r["n_tokens"] for r in rows) / len(rows),
                 gen_seconds=round(gen_s), seconds=round(time.time() - t0),
@@ -103,6 +109,8 @@ def main(argv=None):
     common.write_json(run / "rollout.meta.json", meta)
     print(f"{len(rows)} responses, pass@1 {pass1:.3f}, truncated {meta['truncated']:.1%}, "
           f"mean {meta['mean_tokens']:.0f} tokens, {meta['seconds']}s")
+    print(f"gate 0: {n_mixed} of {len(per)} problems mixed (some but not all answers correct), "
+          f"{n_all} all correct, {len(per) - n_mixed - n_all} none correct")
 
 
 if __name__ == "__main__":
