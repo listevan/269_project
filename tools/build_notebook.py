@@ -1,6 +1,7 @@
 """Write notebooks/token_replay_pilot.ipynb from the cell sources below (uv run tools/build_notebook.py).
 
-The notebook holds no code of its own beyond calling src/, which the VM clones from GitHub. Edit the cells
+The notebook holds no code of its own beyond calling src/, which the VM reads from the Drive code/ folder
+(tools/sync_drive.sh) or, failing that, clones from GitHub. Edit the cells
 here, rebuild, commit, push.
 """
 from pathlib import Path
@@ -116,34 +117,41 @@ os.makedirs(RUNS, exist_ok=True)
 print("runs ->", RUNS)
 """
 
-CLONE = r"""# 4. Code: clone the private repo onto the VM, or pull it to the latest commit (the VM runs what is on GitHub).
-# Token, first found wins: env GITHUB_TOKEN, the Colab secret GITHUB_TOKEN, or github_token.txt in the Drive
-# 269_project folder. A fine-grained token with read access to this repo's contents is enough. Never printed.
+CLONE = r"""# 4. Code. Preferred: the code/ folder in the Drive 269_project folder, filled from the laptop by
+# tools/sync_drive.sh (no GitHub token). Fallback: clone the repo, anonymously if it is public, else with a
+# GITHUB_TOKEN from the environment or a Colab secret. Nothing secret is printed.
 import os, subprocess, sys
-token = os.environ.get("GITHUB_TOKEN")
-if not token:
-    try:
-        from google.colab import userdata
-        token = userdata.get("GITHUB_TOKEN")
-    except Exception:
-        token = None
-if not token and os.path.exists(f"{ROOT}/github_token.txt"):
-    token = open(f"{ROOT}/github_token.txt").read().strip()
-assert token, "no GitHub token found (see the comment at the top of this cell)"
-REPO = f"https://x-access-token:{token}@github.com/listevan/269_project.git"
-BRANCH = "main"
-WORK = "/content/269_project" if os.path.isdir("/content") else os.path.abspath("269_project_work")
-quiet = dict(check=True, capture_output=True, text=True)
-if os.path.isdir(f"{WORK}/.git"):
-    subprocess.run(["git", "-C", WORK, "remote", "set-url", "origin", REPO], **quiet)
-    subprocess.run(["git", "-C", WORK, "fetch", "-q", "origin", BRANCH], **quiet)
-    subprocess.run(["git", "-C", WORK, "reset", "-q", "--hard", f"origin/{BRANCH}"], **quiet)
+sys.dont_write_bytecode = True   # keep __pycache__ off Drive
+CODE = f"{ROOT}/code"
+if os.path.isfile(f"{CODE}/VERSION"):
+    WORK = CODE
+    print("code from Drive:", open(f"{CODE}/VERSION").read().strip())
 else:
-    subprocess.run(["git", "clone", "-q", "--depth", "1", "-b", BRANCH, REPO, WORK], **quiet)
+    token = os.environ.get("GITHUB_TOKEN")
+    if not token:
+        try:
+            from google.colab import userdata
+            token = userdata.get("GITHUB_TOKEN")
+        except Exception:
+            token = None
+    REPO = f"https://{'x-access-token:' + token + '@' if token else ''}github.com/listevan/269_project.git"
+    WORK = "/content/269_project" if os.path.isdir("/content") else os.path.abspath("269_project_work")
+    quiet = dict(capture_output=True, text=True)
+    if os.path.isdir(f"{WORK}/.git"):
+        subprocess.run(["git", "-C", WORK, "remote", "set-url", "origin", REPO], **quiet)
+        r = subprocess.run(["git", "-C", WORK, "fetch", "-q", "origin", "main"], **quiet)
+        if r.returncode == 0:
+            subprocess.run(["git", "-C", WORK, "reset", "-q", "--hard", "origin/main"], **quiet)
+    else:
+        r = subprocess.run(["git", "clone", "-q", "--depth", "1", "-b", "main", REPO, WORK], **quiet)
+    if r.returncode != 0:
+        err = r.stderr.replace(token, "***") if token else r.stderr
+        raise SystemExit("no code found. Run tools/sync_drive.sh on the laptop (fills the Drive code/ folder), or "
+                         "make the repo public, or add a GITHUB_TOKEN Colab secret. git said: " + err.strip()[-300:])
+    print("code from GitHub:", subprocess.run(["git", "-C", WORK, "log", "-1", "--format=%h  %s  (%cr)"], **quiet).stdout.strip())
 os.chdir(WORK)
 if f"{WORK}/src" not in sys.path:
     sys.path.insert(0, f"{WORK}/src")
-print(subprocess.run(["git", "log", "-1", "--format=%h  %s  (%cr)"], capture_output=True, text=True).stdout.strip())
 """
 
 CONFIG = r"""# 5. Configure. SMOKE = True checks the wiring in a few minutes; its numbers mean nothing.
@@ -171,13 +179,14 @@ print(json.dumps(CFG, indent=1))
 """
 
 HELPERS = r"""# 6. Run helper: each stage is a subprocess, so the GPU is free again when it exits
-import subprocess, sys, time
+import os, subprocess, sys, time
 
 def run(script, *args):
     cmd = [sys.executable, "-u", f"src/{script}", "--run", OUT, *map(str, args)]
     print("$", " ".join(cmd[1:]), flush=True)
     t0 = time.time()
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+                         env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})   # no __pycache__ on Drive
     for line in p.stdout:
         if "it/s]" in line or "s/it]" in line:   # progress bars: keep the log short
             continue
