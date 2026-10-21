@@ -10,16 +10,13 @@ describes the design, the models, the data and the reason for each choice.
 
 ## Run it (Colab)
 
-1. `tools/sync_drive.sh`: copies `src/` to `code/` in the `269_project` Drive folder with a VERSION stamp, and
-   the notebook next to it. Drive for desktop uploads them. No GitHub token is needed.
-2. In Google Drive, open `269_project/token_replay_pilot.ipynb` with Colab, on a GPU runtime: an A100 if
-   available; an L4 or T4 works, slower. Cell 4 prints the VERSION stamp it found.
-3. Run top to bottom with `SMOKE = True` (a few minutes, wiring only), then again with `SMOKE = False`.
+1. Open `notebooks/token_replay_pilot.ipynb` in Colab (File > Open notebook > GitHub, repo
+   `listevan/269_project`), on a GPU runtime: an A100 if available; an L4 or T4 works, slower.
+2. Run top to bottom with `SMOKE = True` (a few minutes, wiring only), then again with `SMOKE = False`.
    Results land in `My Drive/.../CS 269/269_project/runs/<date>_qwen3-1.7b/`.
 
-The VM runs what is in the Drive `code/` folder, so run the sync after editing (and re-run cell 3 if the
-notebook was already mounted). Without that folder, cell 4 falls back to cloning the repo from GitHub,
-anonymously if it is public, else with a `GITHUB_TOKEN` Colab secret.
+Cell 4 clones this repo onto the VM with no credentials, the same way 239_project does, so the repo has to be
+public. The VM runs what is on GitHub: push edits before running.
 
 ## Layout
 
@@ -32,7 +29,6 @@ anonymously if it is public, else with a `GITHUB_TOKEN` Colab secret.
 | `src/select_rules.py` | | OPSA, random, teacher-negative and NSR selection (OPSA's selector follows its released code) |
 | `src/common.py`, `src/grade.py` | | prompt, data, files, boxed-answer grading |
 | `tools/build_notebook.py` | | writes the notebook; edit cells there, rebuild, commit |
-| `tools/sync_drive.sh` | | copies `src/` and the notebook to the Drive folder the Colab VM runs from |
 
 ## Laptop
 
