@@ -2,10 +2,13 @@
 
 Nothing here imports torch or vllm, so the laptop tests and the analysis can use it.
 """
+import glob
 import hashlib
 import json
 import os
 import random
+import shutil
+import sys
 from pathlib import Path
 
 STUDENT = "Qwen/Qwen3-1.7B"   # the model OPSA trains (released OPSA checkpoint: Tuwhy/Qwen3-1.7B-OPSA)
@@ -36,6 +39,19 @@ def end_token_ids(tok) -> list[int]:
     if not ids:
         raise ValueError("tokenizer has none of " + ", ".join(END_TOKENS))
     return ids
+
+
+# --------------------------------------------------------------------------- local GPU
+def ensure_c_compiler():
+    """Triton builds a small C launcher for every kernel it compiles (vLLM's torch.compile and its own kernels),
+    so the vLLM stages need a C compiler. On a machine with none (and no sudo to install one), point Triton at
+    tools/rocm_cc, which wraps the clang that the pip ROCm SDK ships. Call before importing vllm or torch."""
+    if os.environ.get("CC") or shutil.which("gcc") or shutil.which("clang"):
+        return
+    clang = sorted(glob.glob(f"{sys.prefix}/lib/python3*/site-packages/_rocm_sdk_core/lib/llvm/bin/clang"))
+    if clang:
+        os.environ["ROCM_SDK_CLANG"] = clang[0]
+        os.environ["CC"] = str(Path(__file__).resolve().parents[1] / "tools" / "rocm_cc")
 
 
 # --------------------------------------------------------------------------- data

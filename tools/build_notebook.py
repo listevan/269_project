@@ -87,11 +87,13 @@ else:
     print("NO GPU in this runtime. Colab: Runtime > Change runtime type > GPU, then run again from this cell.")
 """
 
-INSTALL = r"""# 2. Install (vllm pins its own torch and transformers; every stage runs in a subprocess, so no restart)
-import subprocess, sys
-PKGS = "vllm datasets math-verify pandas"
-if subprocess.run(f"pip install -q uv && uv pip install --system -q {PKGS}", shell=True).returncode != 0:
-    subprocess.run(f"pip install -q {PKGS}", shell=True, check=True)
+INSTALL = r"""# 2. Install, Colab only (vllm pins its own torch and transformers; every stage runs in a subprocess, so no
+# restart). Elsewhere the kernel's own environment is used as is: locally that is the uv env (README).
+import os, subprocess, sys
+if os.path.isdir("/content"):
+    PKGS = "vllm datasets math-verify pandas"
+    if subprocess.run(f"pip install -q uv && uv pip install --system -q {PKGS}", shell=True).returncode != 0:
+        subprocess.run(f"pip install -q {PKGS}", shell=True, check=True)
 print(subprocess.run([sys.executable, "-c", "import vllm, transformers; print('vllm', vllm.__version__, "
                       "'transformers', transformers.__version__)"], capture_output=True, text=True).stdout
       or "import check failed, see above")
@@ -109,8 +111,11 @@ try:
     else:
         cs = [p for d in range(4) for p in glob.glob(f"{my}/" + "*/" * d + "CS 269") if os.path.isdir(p)]
         ROOT = f"{cs[0]}/269_project" if cs else f"{my}/269_project"
-except ImportError:
-    ROOT = os.path.abspath("269_project_local")   # outside Colab: a local folder
+except ImportError:   # outside Colab: runs/ of the repo this notebook sits in, else a local folder
+    here = os.getcwd()
+    while here != os.path.dirname(here) and not os.path.exists(f"{here}/pyproject.toml"):
+        here = os.path.dirname(here)
+    ROOT = here if os.path.exists(f"{here}/pyproject.toml") else os.path.abspath("269_project_local")
 RUNS = f"{ROOT}/runs"
 os.makedirs(RUNS, exist_ok=True)
 print("runs ->", RUNS)
@@ -118,11 +123,14 @@ print("runs ->", RUNS)
 
 CLONE = r"""# 4. Code: clone the repo onto the VM, or pull it to the latest commit. The VM runs what is on GitHub.
 # No credentials, as in 239_project: the repo must be public. A private repo stops here with a clear message.
+# Outside Colab, inside a checkout of the repo (cell 3 found its pyproject.toml): that checkout is used as is.
 import os, subprocess, sys
 REPO, BRANCH = "https://github.com/listevan/269_project.git", "main"
 WORK = "/content/269_project" if os.path.isdir("/content") else os.path.abspath("269_project_work")
 quiet = dict(capture_output=True, text=True)
-if os.path.isdir(f"{WORK}/.git"):
+if os.path.isdir(f"{ROOT}/src") and os.path.isdir(f"{ROOT}/.git"):
+    WORK, r = ROOT, subprocess.CompletedProcess([], 0)
+elif os.path.isdir(f"{WORK}/.git"):
     r = subprocess.run(["git", "-C", WORK, "fetch", "-q", "origin", BRANCH], **quiet)
     if r.returncode == 0:
         subprocess.run(["git", "-C", WORK, "reset", "-q", "--hard", f"origin/{BRANCH}"], **quiet)

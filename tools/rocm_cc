@@ -1,0 +1,15 @@
+#!/bin/sh
+# C compiler for Triton's run-time launcher builds (vLLM's torch.compile and every Triton kernel) on a machine
+# with no gcc and no way to install one: the clang that the pip ROCm SDK ships (rocm-sdk-core). It links with the
+# SDK's own compiler-rt and lld, so the gcc development files are not needed either.
+# src/common.py's ensure_c_compiler() points CC here when it finds no compiler on the PATH.
+clang=${ROCM_SDK_CLANG:-}
+if [ -z "$clang" ]; then
+    venv=${VIRTUAL_ENV:-"$(cd "$(dirname "$0")/.." && pwd)/.venv"}
+    clang=$(ls "$venv"/lib/python3*/site-packages/_rocm_sdk_core/lib/llvm/bin/clang 2>/dev/null | head -n 1)
+fi
+if [ ! -x "$clang" ]; then
+    echo "rocm_cc: no clang found; set ROCM_SDK_CLANG or install the rocm group (uv sync)" >&2
+    exit 1
+fi
+exec "$clang" -fuse-ld=lld -rtlib=compiler-rt --unwindlib=none -Wno-macro-redefined "$@"

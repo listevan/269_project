@@ -46,6 +46,7 @@ def main(argv=None):
         print(f"rollouts already done: {run / 'rollout.meta.json'}")
         return
 
+    common.ensure_c_compiler()
     import torch
     import vllm
     from transformers import AutoTokenizer

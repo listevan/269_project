@@ -1,7 +1,7 @@
 [project]
 name = "token-replay-pilot"
 version = "0.1.0"
-description = "How useful are the tokens negative-only training pushes down? vLLM + transformers stages (Colab), analysis (laptop)."
+description = "How useful are the tokens negative-only training pushes down? vLLM + transformers stages (Colab or a local AMD GPU), analysis (laptop)."
 requires-python = ">=3.11"
 dependencies = [
     "math-verify>=0.8",
@@ -11,10 +11,49 @@ dependencies = [
 
 [dependency-groups]
 dev = ["pytest", "nbformat"]
-gpu = ["vllm>=0.10", "transformers>=4.51", "datasets>=3.0"]   # the Colab notebook installs these itself
+# GPU stages on the local machine (AMD RX 9070 XT, gfx1201): vLLM's ROCm 10.0 wheels, which bring PyTorch and
+# the ROCm runtime from pip, so no system ROCm install is needed. The wheels exist for Linux x86_64 and Python
+# 3.12 only (.python-version), so on any other machine this group reduces to the pure-Python packages.
+# The Colab notebook installs its own CUDA vLLM and does not use this group.
+rocm = [
+    "vllm==0.32.1rc1.dev276+gdf6603f05.rocm100 ; sys_platform == 'linux' and platform_machine == 'x86_64' and python_full_version >= '3.12' and python_full_version < '3.13'",
+    "torch[device-gfx1201]==2.13.0+rocm10.0.0 ; sys_platform == 'linux' and platform_machine == 'x86_64' and python_full_version >= '3.12' and python_full_version < '3.13'",
+    "torchvision[device-gfx1201]==0.28.0+rocm10.0.0 ; sys_platform == 'linux' and platform_machine == 'x86_64' and python_full_version >= '3.12' and python_full_version < '3.13'",
+    "rocm[libraries,device-gfx1201]==10.0.0 ; sys_platform == 'linux' and platform_machine == 'x86_64' and python_full_version >= '3.12' and python_full_version < '3.13'",
+    "transformers>=4.51",
+    "datasets>=3.0",
+    "ipykernel",
+]
 
 [tool.uv]
 package = false
+default-groups = ["dev", "rocm"]
+# vLLM's ROCm wheel asks for the GPU kernels of every AMD architecture (about 5 GB more); keep gfx1201's only.
+exclude-dependencies = [
+    "amd-torch-device-gfx90a", "amd-torch-device-gfx942", "amd-torch-device-gfx950",
+    "amd-torch-device-gfx1100", "amd-torch-device-gfx1101", "amd-torch-device-gfx110x",
+    "amd-torch-device-gfx1150", "amd-torch-device-gfx1151", "amd-torch-device-gfx115x",
+    "amd-torch-device-gfx1200",
+    "amd-torchvision-device-gfx90a", "amd-torchvision-device-gfx942", "amd-torchvision-device-gfx950",
+    "amd-torchvision-device-gfx1100", "amd-torchvision-device-gfx1101",
+    "amd-torchvision-device-gfx1150", "amd-torchvision-device-gfx1151", "amd-torchvision-device-gfx1200",
+    "rocm-sdk-device-gfx90a", "rocm-sdk-device-gfx942", "rocm-sdk-device-gfx950",
+    "rocm-sdk-device-gfx1100", "rocm-sdk-device-gfx1101",
+    "rocm-sdk-device-gfx1150", "rocm-sdk-device-gfx1151", "rocm-sdk-device-gfx1200",
+]
+
+# vLLM's ROCm wheel index (https://docs.vllm.ai/en/latest/getting_started/installation/gpu/, AMD ROCm). It is
+# searched before PyPI for every package, which is how the transitive rocm-sdk-* and amd-*-device-* packages are
+# found; it only carries vllm, torch, triton, flash-attn, aiter, amdsmi and the ROCm SDK.
+[[tool.uv.index]]
+name = "vllm-rocm"
+url = "https://wheels.vllm.ai/rocm/nightly/rocm100/"
+
+[tool.uv.sources]
+vllm = { index = "vllm-rocm" }
+torch = { index = "vllm-rocm" }
+torchvision = { index = "vllm-rocm" }
+rocm = { index = "vllm-rocm" }
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

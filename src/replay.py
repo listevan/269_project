@@ -65,6 +65,7 @@ def main(argv=None):
         print(f"replays already done: {final}")
         return
 
+    common.ensure_c_compiler()
     import torch
     import vllm
     from transformers import AutoTokenizer
