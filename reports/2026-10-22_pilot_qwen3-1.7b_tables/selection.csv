@@ -1,0 +1,6 @@
+rule,tokens,median p(token),mean position in response
+all tokens,474090,1.0,0.5
+OPSA: lowest 20% log-prob,94806,0.506,0.48
+Random 20%,94806,1.0,0.5
+Teacher-negative 20%,94806,0.811,0.48
+NSR: failed responses,292990,1.0,0.5

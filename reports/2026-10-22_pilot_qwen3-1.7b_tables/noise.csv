@@ -1,0 +1,2 @@
+positions with a second kept pass,mean |Q_kept - Q_dup|,expected from sampling alone,"corr(Q_kept, Q_dup)",sign of U agrees
+73,0.104,0.106,0.88,0.64

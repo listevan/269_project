@@ -1,0 +1,21 @@
+{
+ "stage": "score",
+ "student": "Qwen/Qwen3-1.7B",
+ "teacher": "Qwen/Qwen3-4B",
+ "pool_size": 16,
+ "fraction": 0.2,
+ "positions_per_rule": 64,
+ "positions_from": "mixed",
+ "n_mixed_problems": 24,
+ "redraws": 8,
+ "seed": 0,
+ "n_pools": 30,
+ "selected_tokens": {
+  "opsa": 94806,
+  "random": 94806,
+  "teacher_neg": 94806,
+  "nsr": 292990
+ },
+ "total_tokens": 474090,
+ "seconds": 147
+}

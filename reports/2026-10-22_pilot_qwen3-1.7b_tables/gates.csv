@@ -1,0 +1,6 @@
+gate,value,verdict
+0. enough mixed problems,"24 of 60 problems have some but not all answers correct (level 3: 5/13, level 4: 10/26, level 5: 9/21); replay positions come from these",PASS
+1. scoring matches sampling,"mean |HF - vLLM| log-prob 0.0082, 99th pct 0.121",PASS
+2. replay reproduces the rollout state,"corr(Q_kept at random positions, problem's rollout success) = 0.78",PASS
+3. no replay noise beyond sampling,mean |Q_kept - Q_dup| 0.104 vs 0.106 expected,PASS
+4. OPSA's tokens differ from random ones,"-0.096 [-0.174, -0.019]",DETECTED

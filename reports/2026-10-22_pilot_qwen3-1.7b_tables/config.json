@@ -1,0 +1,15 @@
+{
+ "student": "Qwen/Qwen3-1.7B",
+ "teacher": "Qwen/Qwen3-4B",
+ "levels": "3,4,5",
+ "n_problems": 60,
+ "samples": 8,
+ "max_tokens": 4096,
+ "pool_size": 16,
+ "fraction": 0.2,
+ "positions": 64,
+ "redraws": 8,
+ "kept": 8,
+ "dup_fraction": 0.25,
+ "seed": 0
+}

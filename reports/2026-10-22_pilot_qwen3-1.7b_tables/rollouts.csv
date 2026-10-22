@@ -1,0 +1,5 @@
+level,problems,responses,pass1,truncated,mean_tokens,all_correct,some_correct,none_correct
+3,13,104,0.865,0.0,560,8,5,0
+4,26,208,0.644,0.005,979,12,10,4
+5,21,168,0.446,0.018,1263,6,9,6
+all,60,480,0.623,0.008,988,26,24,10

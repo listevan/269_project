@@ -1,0 +1,7 @@
+contrast,measure,difference [95% CI],bootstrap p
+OPSA: lowest 20% log-prob minus random,usefulness,"-0.096 [-0.174, -0.019]",0.014
+OPSA: lowest 20% log-prob minus random,damage,"-0.0061 [-0.0145, +0.0002]",0.058
+Teacher-negative 20% minus random,usefulness,"-0.086 [-0.155, -0.017]",0.015
+Teacher-negative 20% minus random,damage,"-0.0019 [-0.0063, +0.0016]",0.29
+NSR: failed responses minus random,usefulness,"-0.066 [-0.135, +0.004]",0.062
+NSR: failed responses minus random,damage,"-0.0010 [-0.0044, +0.0020]",0.535

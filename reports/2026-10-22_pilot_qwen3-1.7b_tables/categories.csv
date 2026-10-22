@@ -1,0 +1,8 @@
+,all tokens,OPSA: lowest 20% log-prob,Random 20%,Teacher-negative 20%,NSR: failed responses
+word,0.332,0.592,0.334,0.532,0.333
+math/LaTeX,0.331,0.229,0.33,0.276,0.342
+digit,0.165,0.02,0.166,0.038,0.162
+space/newline,0.102,0.035,0.102,0.051,0.094
+punctuation/other,0.063,0.101,0.063,0.089,0.062
+doubt/fork word,0.005,0.022,0.004,0.012,0.006
+end token,0.001,0.001,0.001,0.002,0.001

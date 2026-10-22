@@ -1,0 +1,32 @@
+{
+ "stage": "rollout",
+ "model": "Qwen/Qwen3-1.7B",
+ "levels": "3,4,5",
+ "n_problems": 60,
+ "samples": 8,
+ "max_tokens": 4096,
+ "temperature": 1.0,
+ "top_p": 1.0,
+ "top_k": null,
+ "thinking": false,
+ "seed": 0,
+ "dtype": "bfloat16",
+ "vllm": "0.32.1rc1.dev276+gdf6603f05",
+ "grader": "math_verify",
+ "grade_timeouts": 0,
+ "end_ids": [
+  151645,
+  151643
+ ],
+ "end_added": 0,
+ "n_responses": 480,
+ "pass1": 0.6229166666666667,
+ "problems_mixed": 24,
+ "problems_all_correct": 26,
+ "problems_none_correct": 10,
+ "truncated": 0.008333333333333333,
+ "mean_tokens": 987.6875,
+ "gen_seconds": 303,
+ "seconds": 304,
+ "example_prompt": "<|im_start|>user\nWhat is the domain of the function $f(x) = \\frac{2-x}{\\log(2-\\log(x-2))}$, where $\\log$ is the base $10$ logarithm function? Express your answer in interval notation.\nPlease reason step by step, and put your final answer within \\boxed{}.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
+}

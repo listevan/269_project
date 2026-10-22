@@ -1,0 +1,14 @@
+{
+ "stage": "replay",
+ "model": "Qwen/Qwen3-1.7B",
+ "kept": 8,
+ "dup_fraction": 0.25,
+ "seed": 0,
+ "max_tokens": 4096,
+ "n_positions": 255,
+ "n_continuations": 4664,
+ "grader": "math_verify",
+ "grade_timeouts": 0,
+ "vllm": "0.32.1rc1.dev276+gdf6603f05",
+ "seconds": 1572
+}

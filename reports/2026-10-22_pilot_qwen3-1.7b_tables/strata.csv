@@ -1,0 +1,12 @@
+rule,subset,positions,usefulness,share_useful,share_harmful
+OPSA: lowest 20% log-prob,correct response,17,-0.059,0.18,0.29
+OPSA: lowest 20% log-prob,failed response,47,-0.016,0.28,0.34
+OPSA: lowest 20% log-prob,problem: some correct,64,-0.027,0.25,0.33
+Random 20%,correct response,20,0.162,0.55,0.1
+Random 20%,failed response,44,0.026,0.36,0.2
+Random 20%,problem: some correct,64,0.068,0.42,0.17
+Teacher-negative 20%,correct response,13,-0.019,0.31,0.31
+Teacher-negative 20%,failed response,51,-0.017,0.16,0.31
+Teacher-negative 20%,problem: some correct,64,-0.018,0.19,0.31
+NSR: failed responses,failed response,64,0.002,0.28,0.25
+NSR: failed responses,problem: some correct,64,0.002,0.28,0.25

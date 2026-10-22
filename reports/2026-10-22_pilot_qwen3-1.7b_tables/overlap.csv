@@ -1,0 +1,5 @@
+,OPSA: lowest 20% log-prob,Random 20%,Teacher-negative 20%,NSR: failed responses
+OPSA: lowest 20% log-prob,1.0,0.201,0.582,0.684
+Random 20%,0.201,1.0,0.2,0.621
+Teacher-negative 20%,0.582,0.2,1.0,0.669
+NSR: failed responses,0.221,0.201,0.216,1.0
