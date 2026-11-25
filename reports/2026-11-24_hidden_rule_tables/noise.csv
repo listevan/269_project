@@ -1,0 +1,5 @@
+split,mean |base B - base A| per operator,max |d|,mean d
+new_numbers,0.008,0.023,0.004
+new_range,0.008,0.036,0.003
+composition,0.008,0.026,-0.008
+with_def,0.0,0.003,0.0

@@ -1,0 +1,18 @@
+{
+ "n_responses": 2304,
+ "n_kept": 2299,
+ "correct": 0.1003,
+ "corr_with_correct": {
+  "teacher_adv": 0.1157,
+  "opsa_adv": -0.1011
+ },
+ "corr_with_length": {
+  "teacher_adv": 0.759,
+  "opsa_adv": 0.0599
+ },
+ "teacher_adv_correct": -1.9026,
+ "teacher_adv_wrong": -2.3261,
+ "opsa_selected_correct": 0.2177,
+ "opsa_selected_wrong": 0.1994,
+ "seconds": 79
+}

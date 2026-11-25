@@ -41,10 +41,11 @@ def budget(n_tokens: int, fraction: float) -> int:
     return 0 if n_tokens == 0 else min(n_tokens, max(1, math.floor(fraction * n_tokens)))
 
 
-def lowest_fraction(values_by_key, keys, fraction: float, only_negative=False):
-    """OPSA's selector on one pool. Returns {key: sorted positions}."""
+def lowest_fraction(values_by_key, keys, fraction: float, only_negative=False, k=None):
+    """OPSA's selector on one pool. Returns {key: sorted positions}. k overrides the budget (the answer-key arm
+    takes the whole pool's budget from its wrong responses only)."""
     flat, owner, pos = _flat(values_by_key, keys)
-    k = budget(len(flat), fraction)
+    k = budget(len(flat), fraction) if k is None else min(k, len(flat))
     idx = np.argsort(flat, kind="stable")[:k]
     if only_negative:
         idx = idx[flat[idx] < 0]

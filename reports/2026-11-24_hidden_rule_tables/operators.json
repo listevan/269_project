@@ -1,0 +1,269 @@
+{
+ "syms": [
+  "$",
+  "&",
+  "¤",
+  "♦",
+  "#",
+  "♣",
+  "@",
+  "⊙",
+  "∧",
+  "⊟",
+  "~",
+  "⊕"
+ ],
+ "rates": {
+  "#": 0.0208,
+  "$": 0.0,
+  "@": 0.0521,
+  "&": 0.0,
+  "~": 0.3698,
+  "§": 0.0208,
+  "¤": 0.0,
+  "†": 0.0,
+  "‡": 0.0,
+  "⊕": 0.4115,
+  "⊗": 0.3854,
+  "⊙": 0.0781,
+  "⊞": 0.3958,
+  "⊠": 0.1042,
+  "⊟": 0.2969,
+  "∧": 0.1198,
+  "∨": 0.3906,
+  "↑": 0.0,
+  "↓": 0.1146,
+  "△": 0.1094,
+  "∇": 0.0104,
+  "◇": 0.0,
+  "⋆": 0.0417,
+  "♣": 0.026,
+  "♠": 0.0,
+  "♦": 0.0052
+ },
+ "detail": {
+  "#": {
+   "correct": 0.0208,
+   "habit": 0.5365,
+   "no_answer": 0.0312,
+   "truncated": 0.0,
+   "mean_tokens": 136.8,
+   "dominant_wrong_share": 0.5729
+  },
+  "$": {
+   "correct": 0.0,
+   "habit": 0.4531,
+   "no_answer": 0.0677,
+   "truncated": 0.0052,
+   "mean_tokens": 125.8,
+   "dominant_wrong_share": 0.5156
+  },
+  "@": {
+   "correct": 0.0521,
+   "habit": 0.0781,
+   "no_answer": 0.1094,
+   "truncated": 0.0104,
+   "mean_tokens": 128.9,
+   "dominant_wrong_share": 0.349
+  },
+  "&": {
+   "correct": 0.0,
+   "habit": 0.0677,
+   "no_answer": 0.1823,
+   "truncated": 0.0052,
+   "mean_tokens": 127.7,
+   "dominant_wrong_share": 0.401
+  },
+  "~": {
+   "correct": 0.3698,
+   "habit": 0.3802,
+   "no_answer": 0.1146,
+   "truncated": 0.0052,
+   "mean_tokens": 127.2,
+   "dominant_wrong_share": 0.2396
+  },
+  "§": {
+   "correct": 0.0208,
+   "habit": 0.2552,
+   "no_answer": 0.0521,
+   "truncated": 0.0052,
+   "mean_tokens": 135.9,
+   "dominant_wrong_share": 0.401
+  },
+  "¤": {
+   "correct": 0.0,
+   "habit": 0.4271,
+   "no_answer": 0.1354,
+   "truncated": 0.0,
+   "mean_tokens": 114.9,
+   "dominant_wrong_share": 0.4583
+  },
+  "†": {
+   "correct": 0.0,
+   "habit": 0.1875,
+   "no_answer": 0.0781,
+   "truncated": 0.0,
+   "mean_tokens": 169.6,
+   "dominant_wrong_share": 0.3646
+  },
+  "‡": {
+   "correct": 0.0,
+   "habit": 0.2865,
+   "no_answer": 0.0573,
+   "truncated": 0.0052,
+   "mean_tokens": 163.6,
+   "dominant_wrong_share": 0.4479
+  },
+  "⊕": {
+   "correct": 0.4115,
+   "habit": 0.4479,
+   "no_answer": 0.0417,
+   "truncated": 0.0,
+   "mean_tokens": 151.3,
+   "dominant_wrong_share": 0.3021
+  },
+  "⊗": {
+   "correct": 0.3854,
+   "habit": 0.1875,
+   "no_answer": 0.1094,
+   "truncated": 0.0,
+   "mean_tokens": 131.4,
+   "dominant_wrong_share": 0.2969
+  },
+  "⊙": {
+   "correct": 0.0781,
+   "habit": 0.1198,
+   "no_answer": 0.0573,
+   "truncated": 0.0,
+   "mean_tokens": 147.7,
+   "dominant_wrong_share": 0.4271
+  },
+  "⊞": {
+   "correct": 0.3958,
+   "habit": 0.0677,
+   "no_answer": 0.0365,
+   "truncated": 0.0,
+   "mean_tokens": 169.5,
+   "dominant_wrong_share": 0.2812
+  },
+  "⊠": {
+   "correct": 0.1042,
+   "habit": 0.349,
+   "no_answer": 0.0521,
+   "truncated": 0.0052,
+   "mean_tokens": 162.2,
+   "dominant_wrong_share": 0.3854
+  },
+  "⊟": {
+   "correct": 0.2969,
+   "habit": 0.2344,
+   "no_answer": 0.0521,
+   "truncated": 0.0052,
+   "mean_tokens": 194.5,
+   "dominant_wrong_share": 0.2969
+  },
+  "∧": {
+   "correct": 0.1198,
+   "habit": 0.4115,
+   "no_answer": 0.1615,
+   "truncated": 0.0052,
+   "mean_tokens": 108.2,
+   "dominant_wrong_share": 0.4688
+  },
+  "∨": {
+   "correct": 0.3906,
+   "habit": 0.1094,
+   "no_answer": 0.2083,
+   "truncated": 0.0,
+   "mean_tokens": 155.7,
+   "dominant_wrong_share": 0.25
+  },
+  "↑": {
+   "correct": 0.0,
+   "habit": 0.1406,
+   "no_answer": 0.849,
+   "truncated": 0.0052,
+   "mean_tokens": 156.1,
+   "dominant_wrong_share": 0.1458
+  },
+  "↓": {
+   "correct": 0.1146,
+   "habit": 0.0312,
+   "no_answer": 0.2135,
+   "truncated": 0.0052,
+   "mean_tokens": 142.2,
+   "dominant_wrong_share": 0.2708
+  },
+  "△": {
+   "correct": 0.1094,
+   "habit": 0.5052,
+   "no_answer": 0.0573,
+   "truncated": 0.0052,
+   "mean_tokens": 141.3,
+   "dominant_wrong_share": 0.5208
+  },
+  "∇": {
+   "correct": 0.0104,
+   "habit": 0.099,
+   "no_answer": 0.0573,
+   "truncated": 0.0,
+   "mean_tokens": 134.3,
+   "dominant_wrong_share": 0.4531
+  },
+  "◇": {
+   "correct": 0.0,
+   "habit": 0.3646,
+   "no_answer": 0.0781,
+   "truncated": 0.0052,
+   "mean_tokens": 181.3,
+   "dominant_wrong_share": 0.4531
+  },
+  "⋆": {
+   "correct": 0.0417,
+   "habit": 0.2031,
+   "no_answer": 0.026,
+   "truncated": 0.0,
+   "mean_tokens": 177.4,
+   "dominant_wrong_share": 0.3698
+  },
+  "♣": {
+   "correct": 0.026,
+   "habit": 0.2031,
+   "no_answer": 0.0312,
+   "truncated": 0.0052,
+   "mean_tokens": 205.0,
+   "dominant_wrong_share": 0.4375
+  },
+  "♠": {
+   "correct": 0.0,
+   "habit": 0.2135,
+   "no_answer": 0.1615,
+   "truncated": 0.0,
+   "mean_tokens": 97.8,
+   "dominant_wrong_share": 0.3958
+  },
+  "♦": {
+   "correct": 0.0052,
+   "habit": 0.0469,
+   "no_answer": 0.0365,
+   "truncated": 0.0,
+   "mean_tokens": 151.6,
+   "dominant_wrong_share": 0.4479
+  }
+ },
+ "source": "candidates, adjusted by hand: the rule's even spacing put four operators at 0.37-0.41 and none at 0.01-0.03; # (0.021) and ♣ (0.026) replace ⊠ (0.104), ⊗ (0.385) and ∨ (0.391) with ⊙ (0.078) added",
+ "picked_by_rule": [
+  "$",
+  "&",
+  "¤",
+  "♦",
+  "@",
+  "⊠",
+  "∧",
+  "⊟",
+  "~",
+  "⊗",
+  "∨",
+  "⊕"
+ ]
+}

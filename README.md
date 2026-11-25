@@ -29,6 +29,56 @@ stopped), `--stop-after rollout` lets you read gate 0 before paying for stages 2
 The notebook works locally too: pick `.venv` as the kernel in VS Code. Cells 2 and 4 then install nothing and
 run this checkout instead of cloning.
 
+### Experiment 3: learning a hidden rule (the proposal's main controlled study)
+
+```
+uv run run_rules.py --smoke     # 3 operators, 3 arms x 2 training steps: about 20 minutes
+uv run run_rules.py             # about 12 operators, 7 arms x 60 LoRA steps, 16-sample evaluations: overnight
+```
+
+The task (`src/rules_data.py`): "Compute 7 # 4." with the definition (a # b = 2a + b) left out, so the correct answer
+starts rare and the dominant wrong answer is identifiable. The driver first measures the base model's correct rate on
+26 candidate symbol/definition pairs and keeps about twelve spanning near 0% to about 50%. `src/neg_train.py` trains
+one arm at a time (LoRA on Qwen3-1.7B, rollouts with `generate`, pools of 16 responses, token-mean loss): OPSA, random
+selection, teacher-negative, teacher with both signs, teacher-selected under OPSA's penalty, the answer-key arm and the
+SFT demonstration control; the teacher is the same model with the definition in its prompt. `src/rules_eval.py`
+samples 16 answers per item on four splits (new numbers, new range, compositions, with the definition) with vLLM
+serving the adapter; `src/rules_probe.py` reads p(correct) and p(dominant wrong) at the box from the logits;
+`src/teacher_audit.py` is the decile audit of the teacher's signal before training; `src/rules_analysis.py` writes
+the tables. Training checkpoints every 5 steps and resumes; `tools/exp3_watchdog.sh` relaunches the driver from cron
+if a session restart kills it. Results: `reports/2026-11-24_hidden_rule.md` (no on-policy arm grew a rare correct
+answer; SFT did; lr 1e-4 collapsed OPSA into capped responses, so every arm ran at 2e-5).
+
+### Experiments 2 and 7: pass@k and per-problem analysis of the released OPSA checkpoint
+
+```
+uv run run_passk.py --smoke     # 4 problems, a few minutes
+uv run run_passk.py             # 100 MATH-500 problems: base (grouping and scoring batches, a temperature sweep), the OPSA checkpoint at a 16k cap, the coverage audit; about 6 hours
+```
+
+`src/passk.py` turns the rollouts into pass@k curves, the Sharpening Tax, per-group accuracies (by what the base's
+grouping batch did), the dominant-wrong-answer mass, side effects, and the list of problems the trained model solved
+that the base never did; those get 64 extra base samples each. All arms share one problem subset
+(`rollout.py --problem-seed`). Results: `reports/2026-11-24_passk_opsa_vs_base.md`.
+
+### Study 2: the premise audit on SUM (the proposal's experiment 5, measured first)
+
+```
+uv run run_premise_audit.py --smoke     # 4 problem pairs, a few minutes
+uv run run_premise_audit.py             # base model (seeds 0 and 1) and the released OPSA checkpoint on all of SUM, about 6 hours
+uv run run_premise_audit.py --arms opsa:0 --set max_tokens=16384 --set samples=1 --set gpu_mem=0.92 --rates-only --tag <tag>
+                                        # the checkpoint writes long answers: rates only at a 16k cap, about 3.5 hours
+```
+
+For each arm, stage 1 samples 8 answers to every one of SUM's 284 unanswerable problems and to their solvable
+originals (`src/rollout.py --dataset sum`), then `src/premise_audit.py` scores every token with the model itself,
+applies OPSA's rule on pools of 16, and measures: refusal, false-answer and no-answer rates on the unanswerable
+items with accuracy on the originals; whether the refusal tokens of refusing responses (the boxed refusal, its first
+token, the hedge phrases in the reasoning) fall inside OPSA's punished set; the probability of starting a refusal at
+the decision point, read from the logits after `\boxed`; and the side effects (length, cap hits, repetition). The
+base model's second seed is the frozen-model control. Runs land in `runs/<date>_sum_<model>_s<seed>/`, with a
+comparison across arms in `runs/<date>_sum_summary.{log,json}`.
+
 How the environment is built (`pyproject.toml`, group `rocm`): vLLM's ROCm 10.0 wheel index is searched before
 PyPI, `torch[device-gfx1201]` brings the kernels for the RX 9070 XT only, and `exclude-dependencies` drops the
 other architectures' kernels that the vLLM wheel would otherwise pull in. The wheels are Linux x86_64 and
@@ -50,10 +100,16 @@ public. The VM runs what is on GitHub: push edits before running.
 
 | File | Stage | What it does |
 |---|---|---|
-| `src/rollout.py` | 1, GPU (vLLM) | 8 answers per problem at T = 1.0, graded |
+| `src/rollout.py` | 1, GPU (vLLM) | 8 answers per problem at T = 1.0, graded; `--dataset sum` for study 2; `--temperature`, `--problem-seed`, `--problem-ids` for experiments 2 and 7 |
 | `src/score.py` | 2, GPU (transformers) | student and teacher log-probability of every answer token; the four rules; replay positions and their replacement tokens |
 | `src/replay.py` | 3, GPU (vLLM) | kept and replaced continuations, graded; resumable |
 | `run_pilot.py` | local GPU | the whole pipeline from the command line: config, the three stages as subprocesses, gate 0, the tables |
+| `run_premise_audit.py` | local GPU | study 2: SUM rollouts and the premise audit for the base model (two seeds) and the OPSA checkpoint, with a comparison table |
+| `run_rules.py`, `src/neg_train.py` | local GPU | experiment 3: operator choice, base batches, the teacher-signal audit, seven LoRA training arms, their evaluations and probes, the tables |
+| `src/rules_data.py`, `src/rules_eval.py`, `src/rules_probe.py`, `src/teacher_audit.py`, `src/rules_analysis.py` | GPU / CPU | the hidden-rule task, vLLM evaluation of a (merged) checkpoint, the logit read, the decile audit, the analysis |
+| `run_passk.py`, `src/passk.py` | local GPU, then CPU | experiments 2 and 7: base batches, temperature sweep, OPSA checkpoint; pass@k curves, Sharpening Tax, per-group and per-problem tables, coverage audit |
+| `src/sum_data.py` | | SUM problems (unanswerable + solvable original), the dataset's prompt, refusal / false-answer grading |
+| `src/premise_audit.py` | 2, GPU (transformers) | token scores, OPSA's rule, refusal and hedge tokens against the punished set, the decision-point distribution, rates and side effects |
 | `src/analyze.py` | laptop or Colab | usefulness tables, bootstrap intervals over problems, noise floor, gates |
 | `src/select_rules.py` | | OPSA, random, teacher-negative and NSR selection (OPSA's selector follows its released code) |
 | `src/common.py`, `src/grade.py` | | prompt, data, files, boxed-answer grading |
