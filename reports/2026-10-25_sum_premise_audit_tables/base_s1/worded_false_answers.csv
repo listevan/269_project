@@ -1,0 +1,118 @@
+key,boxed content of a worded false answer
+sum263:u#0,\text{Infinitely many}
+sum263:u#6,\text{Infinite}
+sum242:u#1,\text{Infinite}
+sum226:u#1,\text{No maximum value exists; the product can be made arbitrarily large.}
+sum207:u#0,\text{The x-intercept is } \frac{-a - 3}{a - 1}
+sum207:u#6,\text{No x-intercept exists.}
+sum158:u#7,\text{The problem is underspecified.}
+sum069:u#1,\frac{27}{32} \cdot \left( \frac{P_{\text{square}}}{P_{\text{triangle}}} \right)
+sum076:u#2,\text{It's a random 4-digit palindrome.}
+sum076:u#3,\text{A random 4-digit palindrome}
+sum076:u#6,\text{One of the 90 4-digit palindromes}
+sum055:u#2,"\text{It is not a constant, it depends on } x \text{ and } y."
+sum055:u#5,\text{It does not equal a specific value for all non-zero } x \text{ and } y
+sum055:u#6,\text{It depends on } x \text{ and } y
+sum055:u#7,\text{It depends on } x \text{ and } y
+sum197:u#1,0.94 \text{ meters}
+sum197:u#2,0.151 \text{ meters}
+sum197:u#5,0.94 \text{ meters}
+sum197:u#6,0.151 \text{ meters}
+sum193:u#7,\text{We need more information to find the area of the semicircle.}
+sum089:u#2,1 - \frac{A_{\text{circle}}}{A_{\triangle ABC}}
+sum152:u#0,DF \text{ remains the same}
+sum251:u#1,\text{Even number of bricks}
+sum251:u#3,"\text{If the number of bricks is even, Beth has a winning strategy.}"
+sum251:u#4,\text{An odd number of bricks}
+sum251:u#7,\text{Even number of bricks}
+sum139:u#1,\text{Infinitely many}
+sum035:u#3,\text{Harmonic Mean} = \frac{n}{\sum_{i=1}^{n} \frac{1}{x_i}}
+sum035:u#6,\text{Harmonic mean} = \frac{n}{\sum_{i=1}^n \frac{1}{x_i}}
+sum210:u#0,\text{The sum of every integer that ends in 1 is infinite.}
+sum210:u#1,\text{The sum depends on the number of terms } n
+sum210:u#2,\text{The sum is infinite.}
+sum210:u#3,\text{The sum of every integer that ends in 1 is infinite and does not converge.
+sum210:u#4,\text{The sum of every integer that ends in 1 is infinite.}
+sum210:u#5,\text{The sum is infinite and does not converge.}
+sum210:u#6,\text{The sum is infinite.}
+sum210:u#7,\text{The sum of every integer that ends in 1 is infinite.}
+sum163:u#2,"\text{One such valid labeling is: } 1, 8, 2, 7, 3, 6, 4, 5"
+sum163:u#3,\text{The only valid arrangement is the magic cube where each face sums to 18.}
+sum163:u#4,\text{There is a unique such labeling.}
+sum163:u#5,"\text{One possible arrangement is: numbers 1, 2, 3, 8 on a face; 4, 5, 6, 7 on t"
+sum163:u#7,"1, 2, 3, 4, 5, 6, 7, 8 \text{ are the integers assigned to the vertices of a cub"
+sum124:u#2,\text{Infinite}
+sum124:u#7,\text{There is no greatest number of consecutive integers.}
+sum192:u#1,"\text{The number } x \text{ lies in the interval } (-\infty, 0) \text{ or } (0, "
+sum250:u#0,"\text{Total: 36 dollars, Transfers: Amy gives 18, Toy gives 18}"
+sum201:u#0,\text{The question is incomplete.}
+sum033:u#0,\text{Less than } \frac{1}{8}
+sum283:u#0,\text{undefined}
+sum283:u#1,\text{No solution}
+sum283:u#2,\text{No solution}
+sum283:u#3,\text{No solution}
+sum283:u#4,\text{Undefined}
+sum283:u#5,\text{Undefined}
+sum283:u#6,\text{Undefined}
+sum283:u#7,\text{No solution}
+sum138:u#1,\text{The number of digits is not uniquely determined.}
+sum187:u#0,\text{It depends on the digits of the original number.}
+sum157:u#6,\text{Any number between 0 and 1}
+sum094:u#0,"\text{It depends on } n, \text{ so it can be } 0 \text{ or } 4"
+sum094:u#1,\text{The tens digit of } 7^n \text{ depends on the value of } n.
+sum094:u#3,0 \text{ or } 4 \text{ depending on } n \mod 4
+sum094:u#7,"\text{The tens digit of } 7^n \text{ depends on } n \mod 4, \text{ and is: } 0, "
+sum281:u#1,b' \text{ and } a' \text{ have opposite signs}
+sum281:u#5,\text{The problem is ill-posed.}
+sum169:u#3,"\text{It depends on the exact distances from her home to the park corner, and fr"
+sum204:u#6,"\text{The series diverges, and therefore the sum does not exist.}"
+sum072:u#3,1 \text{ or } 2
+sum072:u#6,2 \text{ to } 8
+sum274:u#0,\text{No solution exists with } x \ne y
+sum274:u#2,\frac{5 + 3\sqrt{5}}{2} \text{ and } \frac{15 + 3\sqrt{5}}{2}
+sum274:u#7,\text{No solution}
+sum129:u#1,\text{We need more information to determine the median of the trapezoid.}
+sum182:u#6,\text{when } | -3b - 6 + m | < a \text{ and } | 3b - 6 + m | < a
+sum030:u#2,I \ncong \text{know.}
+sum185:u#1,\text{Any configuration where the total Grundy number is 0}
+sum185:u#4,\text{One wall with 2 bricks}
+sum185:u#5,\text{One wall of 1 brick or one wall of 2 bricks}
+sum185:u#6,\text{An even number of bricks}
+sum185:u#7,\text{All walls have sizes that are multiples of 3}
+sum237:u#0,60 \text{ to } 85
+sum237:u#1,60 \text{ to } 66
+sum237:u#2,60 \text{ to } 66
+sum237:u#3,60 \text{ and } 66
+sum237:u#4,60 \text{ to } 85
+sum237:u#5,60 \text{ to } 66
+sum237:u#7,60 \text{ and } 66
+sum266:u#4,"
+\begin{cases}
+2 & \text{if } x = 2 \\
+-x & \text{if } x < 0
+\end{cases}
+"
+sum266:u#6," \begin{cases} 
+2 & \text{if } x = 2 \\
+-x & \text{if } x < 0 
+\end{cases} "
+sum056:u#0,k \leq -7 \text{ or } k \geq 9
+sum056:u#1,k \le -7 \text{ or } k \ge 9
+sum056:u#2,k < -7 \quad \text{or} \quad k > 9 \quad \text{or} \quad -7 < k < 9
+sum056:u#3,k \leq -7 \text{ or } k \geq 9
+sum056:u#4,k \leq -7 \text{ or } k \geq 9
+sum056:u#7,k \le -7 \text{ or } k \ge 9
+sum259:u#2,\text{The probability is } 0
+sum195:u#4,greater \text{ than } 2\%
+sum228:u#6,\text{Infinite}
+sum221:u#0,\text{Infinite}
+sum221:u#1,\text{Infinite}
+sum221:u#4,\text{Infinite}
+sum221:u#5,\text{Infinite}
+sum221:u#7,\text{Infinitely many}
+sum249:u#1,"a, b, c \text{ form an arithmetic sequence and } a = \frac{b}{2} = \frac{c}{3}"
+sum249:u#2,\text{The quadratic has exactly one root if and only if } b = 2a \text{ and } c 
+sum249:u#3,\text{The quadratic equation has exactly one root.}
+sum249:u#5,a = 0 \text{ or } b = 2a \text{ and } c = 3a
+sum249:u#7,"a, b, c \text{ form an arithmetic sequence and the quadratic has exactly one roo"
+sum130:u#0,\text{The area of the sheet of paper used is } s^2

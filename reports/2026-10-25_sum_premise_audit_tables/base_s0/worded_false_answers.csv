@@ -1,0 +1,117 @@
+key,boxed content of a worded false answer
+sum137:u#0,\text{Undefined}
+sum137:u#1,\text{Undefined}
+sum137:u#3,\text{Undefined}
+sum137:u#5,\text{Undefined}
+sum266:u#3,1 \text{ and } 2
+sum182:u#1,"
+\text{The statement is true if } a > \max\{ |3b + m - 4|, |m - 4 - 3b| \}
+"
+sum182:u#6,a \leq 3b \text{ and } a - 3b + 4 \leq m \leq 3b + 4 - a
+sum182:u#7,\text{The statement is true when } m + a > 3b + 4 \text{ and } m - a < -3b + 2 \
+sum035:u#2,\text{Harmonic Mean} = \frac{n}{\sum_{i=1}^{n} \frac{1}{x_i}}
+sum035:u#5,\text{Harmonic Mean} = \frac{n}{\frac{1}{x_1} + \frac{1}{x_2} + \cdots + \frac{1
+sum157:u#7," \text{The median of the interval [a, b]} "
+sum042:u#4,\text{The average width depends on which book is removed.}
+sum269:u#0,\text{The radius of each sphere is } \frac{r}{3 + \sqrt{2}}
+sum084:u#4,\text{Less than 5\%}
+sum216:u#0,"A \text{ and } B \text{ are equal when } x = 40, \text{ but otherwise vary. Ther"
+sum216:u#4,"A = B \text{ when } x = 40, \text{ and } A > B \text{ when } x < 40, \text{ and "
+sum210:u#0,\text{The sum of every integer that ends in 1 is not a fixed number; it grows wi
+sum210:u#1,\text{The sum is infinite.}
+sum210:u#7,\text{The sum is infinite (divergent)}
+sum195:u#6,3.25\%\text{ to }4.5\%
+sum185:u#1,\text{Odd number of bricks}
+sum185:u#2,\text{Odd number of bricks}
+sum185:u#3,\text{All walls have an even number of bricks}
+sum185:u#6,\text{All configurations with an even number of bricks}
+sum065:u#7,"\text{The expression is } \frac{15^n}{5^n + 3}, \text{ but its value depends on "
+sum265:u#1,\text{Infinitely many}
+sum265:u#3,\text{There are infinitely many positions for point } C.
+sum072:u#5,3 \text{ or } 4
+sum163:u#0,"A \text{ valid labeling exists, and it satisfies the condition that the sum of e"
+sum163:u#1,\text{There is only one distinct arrangement up to rotation.}
+sum163:u#2,\text{One valid arrangement exists where each face sums to } 18.
+sum163:u#4,\text{Such a configuration exists.}
+sum163:u#6,"\text{One such arrangement is possible, and it is a known cube puzzle solution. "
+sum024:u#4,65.45 \text{ minutes}
+sum094:u#1,"\text{The tens digit of } 7^n \text{ depends on } n \mod 4 \text{ and is: } 0, 4"
+sum094:u#2,"\text{The tens digit depends on } n \mod 4 \text{, and is not fixed for all } n."
+sum094:u#4,"\text{The tens digit of } 7^n \text{ depends on } n \mod 4, \text{ and is not fi"
+sum094:u#6,\text{The tens digit of } 7^n \text{ depends on } n \mod 4
+sum237:u#0,60 \text{ to } 66
+sum237:u#1,60 \text{ to } 66
+sum237:u#2,78 \text{ to } 85
+sum237:u#3,78 \text{ to } 85
+sum237:u#4,60 \text{ to } 66
+sum237:u#6,78 \text{ to } 85
+sum237:u#7,60 \text{ to } 66
+sum204:u#0,\text{infinite}
+sum204:u#1,\text{The series does not converge; it diverges.}
+sum204:u#3,\text{The sum does not exist.}
+sum263:u#1,\text{Infinity}
+sum263:u#2,\text{Infinite}
+sum250:u#7,"\text{Total: } 180, \text{ Transfers: } 36, 72, 144"
+sum069:u#1,\frac{27P_{\text{square}}^2}{32P_{\text{triangle}}^2}
+sum229:u#3,P(\text{even sum}) = \left( \frac{E}{n} \right)^2 + \left( \frac{O}{n} \right)^2
+sum228:u#0,\text{Infinite}
+sum228:u#5,\text{It depends on the specific set of edges.}
+sum124:u#3,\text{No maximum}
+sum124:u#7,\text{Unbounded}
+sum274:u#0,\text{No solution where } x \ne y
+sum274:u#2,\text{No solution exists with } x \ne y
+sum274:u#4,\text{No solution exists with } x \ne y
+sum283:u#0,\text{Undefined}
+sum283:u#2,\text{No solution}
+sum283:u#3,\text{No solution}
+sum283:u#4,\text{No solution}
+sum283:u#6,\text{Undefined}
+sum283:u#7,\text{Undefined}
+sum055:u#2,\text{The expression is not a constant and depends on both } x \text{ and } y.
+sum055:u#3,\text{It depends on the values of } x \text{ and } y.
+sum055:u#5,\text{The expression is not constant and depends on } x \text{ and } y
+sum055:u#7,\text{The expression depends on } x \text{ and } y \text{ and cannot be simplifi
+sum017:u#4,\text{No solution}
+sum251:u#0,\text{Beth has a winning strategy if the number of bricks is even.}
+sum251:u#1,\text{Even number of bricks}
+sum251:u#2,"\text{If the total number of bricks is even, Beth has a winning strategy.}"
+sum251:u#3,\text{An arrangement with an even number of bricks}
+sum251:u#4,\text{Even number of bricks}
+sum251:u#5,\text{Even number of bricks}
+sum251:u#6,\text{an even number of bricks}
+sum251:u#7,\text{When the total number of bricks is odd}
+sum008:u#3,\text{Not a simple function; it's the rotated graph of } y = \log_{10} x
+sum008:u#5,\text{The equation of the rotated graph } G' \text{ cannot be expressed in terms
+sum047:u#0,"\text{There are infinitely many possible x-coordinates, so the sum is not finite"
+sum249:u#2,\text{There exists such a quadratic that satisfies the given conditions.}
+sum249:u#3,b = 2a \text{ and } c = 3a
+sum249:u#4,\text{The quadratic has exactly one root.}
+sum249:u#6,\text{The quadratic has exactly one root.}
+sum152:u#2,DF \text{ increases}
+sum152:u#4,"\text{The length of } DF \text{ becomes very large, so it increases.}"
+sum138:u#2,\text{The number of digits in } 4^a5^b \text{ depends on the values of } a \text
+sum138:u#5,\text{The number of digits is not uniquely determined by the given information.}
+sum226:u#0,\text{Unbounded (or can be as large as desired)}
+sum226:u#4,\text{Unbounded}
+sum141:u#1,\text{The sum of all possible values of } n \text{ is not defined.}
+sum125:u#1,\text{No maximum}
+sum281:u#0,"\text{If } b' \text{ and } a' \text{ have opposite signs, then the solution to }"
+sum281:u#1,b = 0 \text{ and } a' \ne 0 \text{ and } b' \ne 0
+sum281:u#2,\text{The problem is inconsistent.}
+sum281:u#3,\text{The condition cannot be compared because the first equation has no solutio
+sum281:u#6,"\text{The condition is not well-defined, since } ax + b = 0 \text{ has no soluti"
+sum139:u#0,\text{Infinite}
+sum056:u#0,k = -7 \text{ or } 9
+sum056:u#1,"k < -7 \text{ or } k > 9 \text{ (two distinct real roots)}, \quad -7 < k < 9 \te"
+sum056:u#2,k \leq -7 \text{ or } k \geq 9
+sum056:u#3,k = 9 \text{ and } k = -7
+sum056:u#5,k \leq -7 \text{ or } k \geq 9
+sum056:u#6,k < -7 \text{ or } k > 9
+sum056:u#7,k \leq -7 \text{ or } k \geq 9
+sum083:u#6,\text{Not possible}
+sum221:u#0,\text{Infinitely many}
+sum221:u#3,\text{Infinite}
+sum222:u#5,\text{No solution}
+sum158:u#4,\text{Depends on } a
+sum075:u#5,"\text{There are infinitely many such ordered pairs } (a, b)."
+sum183:u#6,\text{The number of such lines depends on the value of } d. \text{ It is not fix

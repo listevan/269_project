@@ -1,0 +1,1120 @@
+{
+ "config": {
+  "n_problems": 284,
+  "samples": 8,
+  "max_tokens": 4096,
+  "pool_size": 16,
+  "fraction": 0.2
+ },
+ "arms": [
+  [
+   "Qwen/Qwen3-1.7B",
+   0
+  ],
+  [
+   "Qwen/Qwen3-1.7B",
+   1
+  ],
+  [
+   "Tuwhy/Qwen3-1.7B-OPSA",
+   0
+  ]
+ ],
+ "runs": {
+  "base s0": "/home/steven-li/269_project/runs/2026-10-25_sum_qwen3-1.7b_s0",
+  "base s1": "/home/steven-li/269_project/runs/2026-10-25_sum_qwen3-1.7b_s1",
+  "opsa s0": "/home/steven-li/269_project/runs/2026-10-25_sum_qwen3-1.7b-opsa_s0"
+ },
+ "tables": {
+  "rates": [
+   {
+    "group": "unanswerable",
+    "measure": "refusal",
+    "base s0": "0.349 [0.307, 0.389]",
+    "base s1": "0.346 [0.303, 0.386]",
+    "opsa s0": "0.201 [0.162, 0.240]",
+    "noise floor |s0 - s1|": 0.003
+   },
+   {
+    "group": "unanswerable",
+    "measure": "false_answer",
+    "base s0": "0.642 [0.603, 0.683]",
+    "base s1": "0.644 [0.604, 0.685]",
+    "opsa s0": "0.160 [0.127, 0.195]",
+    "noise floor |s0 - s1|": 0.002
+   },
+   {
+    "group": "unanswerable",
+    "measure": "no_answer",
+    "base s0": "0.009 [0.004, 0.015]",
+    "base s1": "0.010 [0.004, 0.017]",
+    "opsa s0": "0.639 [0.591, 0.687]",
+    "noise floor |s0 - s1|": 0.001
+   },
+   {
+    "group": "unanswerable",
+    "measure": "refusal: \\boxed{I don't know} form",
+    "base s0": "0.341 [0.299, 0.382]",
+    "base s1": "0.341 [0.298, 0.380]",
+    "opsa s0": "0.201 [0.162, 0.240]",
+    "noise floor |s0 - s1|": 0.0
+   },
+   {
+    "group": "unanswerable",
+    "measure": "mean tokens",
+    "base s0": 947.0,
+    "base s1": 954.0,
+    "opsa s0": 3565.0,
+    "noise floor |s0 - s1|": 7.0
+   },
+   {
+    "group": "unanswerable",
+    "measure": "at generation cap",
+    "base s0": "0.010 [0.004, 0.017]",
+    "base s1": "0.011 [0.004, 0.019]",
+    "opsa s0": "0.706 [0.661, 0.751]",
+    "noise floor |s0 - s1|": 0.001
+   },
+   {
+    "group": "unanswerable",
+    "measure": "severe repetition",
+    "base s0": "0.176 [0.147, 0.206]",
+    "base s1": "0.186 [0.156, 0.217]",
+    "opsa s0": "0.640 [0.604, 0.676]",
+    "noise floor |s0 - s1|": 0.01
+   },
+   {
+    "group": "unanswerable",
+    "measure": "correct",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   },
+   {
+    "group": "unanswerable",
+    "measure": "wrong",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   },
+   {
+    "group": "answerable",
+    "measure": "refusal",
+    "base s0": "0.030 [0.019, 0.042]",
+    "base s1": "0.034 [0.022, 0.048]",
+    "opsa s0": "0.013 [0.004, 0.025]",
+    "noise floor |s0 - s1|": 0.004
+   },
+   {
+    "group": "answerable",
+    "measure": "false_answer",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   },
+   {
+    "group": "answerable",
+    "measure": "no_answer",
+    "base s0": "0.013 [0.006, 0.021]",
+    "base s1": "0.015 [0.008, 0.023]",
+    "opsa s0": "0.501 [0.449, 0.553]",
+    "noise floor |s0 - s1|": 0.002
+   },
+   {
+    "group": "answerable",
+    "measure": "refusal: \\boxed{I don't know} form",
+    "base s0": "0.030 [0.019, 0.042]",
+    "base s1": "0.033 [0.022, 0.047]",
+    "opsa s0": "0.013 [0.004, 0.025]",
+    "noise floor |s0 - s1|": 0.003
+   },
+   {
+    "group": "answerable",
+    "measure": "mean tokens",
+    "base s0": 945.0,
+    "base s1": 947.0,
+    "opsa s0": 3193.0,
+    "noise floor |s0 - s1|": 2.0
+   },
+   {
+    "group": "answerable",
+    "measure": "at generation cap",
+    "base s0": "0.013 [0.007, 0.021]",
+    "base s1": "0.015 [0.008, 0.024]",
+    "opsa s0": "0.581 [0.529, 0.632]",
+    "noise floor |s0 - s1|": 0.002
+   },
+   {
+    "group": "answerable",
+    "measure": "severe repetition",
+    "base s0": "0.193 [0.160, 0.228]",
+    "base s1": "0.192 [0.159, 0.227]",
+    "opsa s0": "0.504 [0.461, 0.544]",
+    "noise floor |s0 - s1|": 0.001
+   },
+   {
+    "group": "answerable",
+    "measure": "correct",
+    "base s0": "0.519 [0.467, 0.570]",
+    "base s1": "0.522 [0.472, 0.571]",
+    "opsa s0": "0.412 [0.361, 0.463]",
+    "noise floor |s0 - s1|": 0.003
+   },
+   {
+    "group": "answerable",
+    "measure": "wrong",
+    "base s0": "0.438 [0.391, 0.486]",
+    "base s1": "0.430 [0.384, 0.478]",
+    "opsa s0": "0.074 [0.049, 0.099]",
+    "noise floor |s0 - s1|": 0.008
+   },
+   {
+    "group": "pair: refuses the unanswerable and solves the original (same sample index)",
+    "measure": "refusal",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   },
+   {
+    "group": "pair: refuses the unanswerable and solves the original (same sample index)",
+    "measure": "false_answer",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   },
+   {
+    "group": "pair: refuses the unanswerable and solves the original (same sample index)",
+    "measure": "no_answer",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   },
+   {
+    "group": "pair: refuses the unanswerable and solves the original (same sample index)",
+    "measure": "refusal: \\boxed{I don't know} form",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   },
+   {
+    "group": "pair: refuses the unanswerable and solves the original (same sample index)",
+    "measure": "mean tokens",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   },
+   {
+    "group": "pair: refuses the unanswerable and solves the original (same sample index)",
+    "measure": "at generation cap",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   },
+   {
+    "group": "pair: refuses the unanswerable and solves the original (same sample index)",
+    "measure": "severe repetition",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   },
+   {
+    "group": "pair: refuses the unanswerable and solves the original (same sample index)",
+    "measure": "correct",
+    "base s0": "0.224 [0.185, 0.265]",
+    "base s1": "0.219 [0.182, 0.257]",
+    "opsa s0": "0.138 [0.106, 0.173]",
+    "noise floor |s0 - s1|": 0.005
+   },
+   {
+    "group": "pair: refuses the unanswerable and solves the original (same sample index)",
+    "measure": "wrong",
+    "base s0": NaN,
+    "base s1": NaN,
+    "opsa s0": NaN,
+    "noise floor |s0 - s1|": NaN
+   }
+  ],
+  "premise": [
+   {
+    "group": "refusal: first content token of the boxed refusal",
+    "measure": "n",
+    "base s0": 793,
+    "base s1": 787,
+    "opsa s0": 457
+   },
+   {
+    "group": "refusal: first content token of the boxed refusal",
+    "measure": "responses",
+    "base s0": 793,
+    "base s1": 787,
+    "opsa s0": 457
+   },
+   {
+    "group": "refusal: first content token of the boxed refusal",
+    "measure": "share in OPSA's set [95% CI]",
+    "base s0": "0.021 [0.011, 0.034]",
+    "base s1": "0.017 [0.009, 0.026]",
+    "opsa s0": "0.009 [0.000, 0.024]"
+   },
+   {
+    "group": "refusal: first content token of the boxed refusal",
+    "measure": "expected (fraction)",
+    "base s0": 0.2,
+    "base s1": 0.2,
+    "opsa s0": 0.2
+   },
+   {
+    "group": "refusal: first content token of the boxed refusal",
+    "measure": "share in random set",
+    "base s0": 0.219,
+    "base s1": 0.233,
+    "opsa s0": 0.21
+   },
+   {
+    "group": "refusal: first content token of the boxed refusal",
+    "measure": "median p(token)",
+    "base s0": 1.0,
+    "base s1": 1.0,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "refusal: first content token of the boxed refusal",
+    "measure": "share p<0.5",
+    "base s0": 0.011,
+    "base s1": 0.006,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "refusal: first content token of the boxed refusal",
+    "measure": "mean OPSA advantage when selected",
+    "base s0": -0.594,
+    "base s1": -0.595,
+    "opsa s0": -0.531
+   },
+   {
+    "group": "refusal: every token of the boxed refusal",
+    "measure": "n",
+    "base s0": 6939,
+    "base s1": 6876,
+    "opsa s0": 2256
+   },
+   {
+    "group": "refusal: every token of the boxed refusal",
+    "measure": "responses",
+    "base s0": 793,
+    "base s1": 787,
+    "opsa s0": 457
+   },
+   {
+    "group": "refusal: every token of the boxed refusal",
+    "measure": "share in OPSA's set [95% CI]",
+    "base s0": "0.084 [0.077, 0.092]",
+    "base s1": "0.079 [0.072, 0.086]",
+    "opsa s0": "0.019 [0.012, 0.027]"
+   },
+   {
+    "group": "refusal: every token of the boxed refusal",
+    "measure": "expected (fraction)",
+    "base s0": 0.2,
+    "base s1": 0.2,
+    "opsa s0": 0.2
+   },
+   {
+    "group": "refusal: every token of the boxed refusal",
+    "measure": "share in random set",
+    "base s0": 0.207,
+    "base s1": 0.202,
+    "opsa s0": 0.211
+   },
+   {
+    "group": "refusal: every token of the boxed refusal",
+    "measure": "median p(token)",
+    "base s0": 1.0,
+    "base s1": 1.0,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "refusal: every token of the boxed refusal",
+    "measure": "share p<0.5",
+    "base s0": 0.04,
+    "base s1": 0.038,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "refusal: every token of the boxed refusal",
+    "measure": "mean OPSA advantage when selected",
+    "base s0": -0.59,
+    "base s1": -0.589,
+    "opsa s0": -0.526
+   },
+   {
+    "group": "refusal: brace token that opens the box",
+    "measure": "n",
+    "base s0": 793,
+    "base s1": 787,
+    "opsa s0": 457
+   },
+   {
+    "group": "refusal: brace token that opens the box",
+    "measure": "responses",
+    "base s0": 793,
+    "base s1": 787,
+    "opsa s0": 457
+   },
+   {
+    "group": "refusal: brace token that opens the box",
+    "measure": "share in OPSA's set [95% CI]",
+    "base s0": "0.586 [0.546, 0.627]",
+    "base s1": "0.574 [0.536, 0.610]",
+    "opsa s0": "0.018 [0.002, 0.037]"
+   },
+   {
+    "group": "refusal: brace token that opens the box",
+    "measure": "expected (fraction)",
+    "base s0": 0.2,
+    "base s1": 0.2,
+    "opsa s0": 0.2
+   },
+   {
+    "group": "refusal: brace token that opens the box",
+    "measure": "share in random set",
+    "base s0": 0.209,
+    "base s1": 0.211,
+    "opsa s0": 0.239
+   },
+   {
+    "group": "refusal: brace token that opens the box",
+    "measure": "median p(token)",
+    "base s0": 0.703,
+    "base s1": 0.707,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "refusal: brace token that opens the box",
+    "measure": "share p<0.5",
+    "base s0": 0.262,
+    "base s1": 0.24,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "refusal: brace token that opens the box",
+    "measure": "mean OPSA advantage when selected",
+    "base s0": -0.584,
+    "base s1": -0.583,
+    "opsa s0": -0.528
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: first token",
+    "measure": "n",
+    "base s0": 2817,
+    "base s1": 2827,
+    "opsa s0": 14075
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: first token",
+    "measure": "responses",
+    "base s0": 724,
+    "base s1": 737,
+    "opsa s0": 450
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: first token",
+    "measure": "share in OPSA's set [95% CI]",
+    "base s0": "0.583 [0.554, 0.613]",
+    "base s1": "0.586 [0.559, 0.614]",
+    "opsa s0": "0.337 [0.323, 0.352]"
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: first token",
+    "measure": "expected (fraction)",
+    "base s0": 0.2,
+    "base s1": 0.2,
+    "opsa s0": 0.2
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: first token",
+    "measure": "share in random set",
+    "base s0": 0.219,
+    "base s1": 0.204,
+    "opsa s0": 0.197
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: first token",
+    "measure": "median p(token)",
+    "base s0": 0.636,
+    "base s1": 0.629,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: first token",
+    "measure": "share p<0.5",
+    "base s0": 0.41,
+    "base s1": 0.406,
+    "opsa s0": 0.053
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: first token",
+    "measure": "mean OPSA advantage when selected",
+    "base s0": -0.667,
+    "base s1": -0.668,
+    "opsa s0": -0.559
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: every token",
+    "measure": "n",
+    "base s0": 7612,
+    "base s1": 7551,
+    "opsa s0": 37175
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: every token",
+    "measure": "responses",
+    "base s0": 724,
+    "base s1": 737,
+    "opsa s0": 450
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: every token",
+    "measure": "share in OPSA's set [95% CI]",
+    "base s0": "0.520 [0.502, 0.539]",
+    "base s1": "0.510 [0.493, 0.530]",
+    "opsa s0": "0.279 [0.271, 0.287]"
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: every token",
+    "measure": "expected (fraction)",
+    "base s0": 0.2,
+    "base s1": 0.2,
+    "opsa s0": 0.2
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: every token",
+    "measure": "share in random set",
+    "base s0": 0.208,
+    "base s1": 0.206,
+    "opsa s0": 0.201
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: every token",
+    "measure": "median p(token)",
+    "base s0": 0.735,
+    "base s1": 0.748,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: every token",
+    "measure": "share p<0.5",
+    "base s0": 0.317,
+    "base s1": 0.311,
+    "opsa s0": 0.047
+   },
+   {
+    "group": "hedge phrase in the reasoning of refusing responses: every token",
+    "measure": "mean OPSA advantage when selected",
+    "base s0": -0.648,
+    "base s1": -0.65,
+    "opsa s0": -0.565
+   },
+   {
+    "group": "hedge phrase in the reasoning of false-answer responses: first token",
+    "measure": "n",
+    "base s0": 747,
+    "base s1": 758,
+    "opsa s0": 4254
+   },
+   {
+    "group": "hedge phrase in the reasoning of false-answer responses: first token",
+    "measure": "responses",
+    "base s0": 385,
+    "base s1": 414,
+    "opsa s0": 304
+   },
+   {
+    "group": "hedge phrase in the reasoning of false-answer responses: first token",
+    "measure": "share in OPSA's set [95% CI]",
+    "base s0": "0.656 [0.606, 0.705]",
+    "base s1": "0.633 [0.581, 0.687]",
+    "opsa s0": "0.471 [0.449, 0.495]"
+   },
+   {
+    "group": "hedge phrase in the reasoning of false-answer responses: first token",
+    "measure": "expected (fraction)",
+    "base s0": 0.2,
+    "base s1": 0.2,
+    "opsa s0": 0.2
+   },
+   {
+    "group": "hedge phrase in the reasoning of false-answer responses: first token",
+    "measure": "share in random set",
+    "base s0": 0.194,
+    "base s1": 0.208,
+    "opsa s0": 0.192
+   },
+   {
+    "group": "hedge phrase in the reasoning of false-answer responses: first token",
+    "measure": "median p(token)",
+    "base s0": 0.505,
+    "base s1": 0.545,
+    "opsa s0": 0.998
+   },
+   {
+    "group": "hedge phrase in the reasoning of false-answer responses: first token",
+    "measure": "share p<0.5",
+    "base s0": 0.498,
+    "base s1": 0.471,
+    "opsa s0": 0.084
+   },
+   {
+    "group": "hedge phrase in the reasoning of false-answer responses: first token",
+    "measure": "mean OPSA advantage when selected",
+    "base s0": -0.69,
+    "base s1": -0.692,
+    "opsa s0": -0.564
+   },
+   {
+    "group": "false answer: first content token of the box (unanswerable)",
+    "measure": "n",
+    "base s0": 1459,
+    "base s1": 1463,
+    "opsa s0": 364
+   },
+   {
+    "group": "false answer: first content token of the box (unanswerable)",
+    "measure": "responses",
+    "base s0": 1459,
+    "base s1": 1463,
+    "opsa s0": 364
+   },
+   {
+    "group": "false answer: first content token of the box (unanswerable)",
+    "measure": "share in OPSA's set [95% CI]",
+    "base s0": "0.031 [0.019, 0.043]",
+    "base s1": "0.040 [0.027, 0.056]",
+    "opsa s0": "0.030 [0.010, 0.057]"
+   },
+   {
+    "group": "false answer: first content token of the box (unanswerable)",
+    "measure": "expected (fraction)",
+    "base s0": 0.2,
+    "base s1": 0.2,
+    "opsa s0": 0.2
+   },
+   {
+    "group": "false answer: first content token of the box (unanswerable)",
+    "measure": "share in random set",
+    "base s0": 0.188,
+    "base s1": 0.213,
+    "opsa s0": 0.17
+   },
+   {
+    "group": "false answer: first content token of the box (unanswerable)",
+    "measure": "median p(token)",
+    "base s0": 1.0,
+    "base s1": 1.0,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "false answer: first content token of the box (unanswerable)",
+    "measure": "share p<0.5",
+    "base s0": 0.018,
+    "base s1": 0.023,
+    "opsa s0": 0.008
+   },
+   {
+    "group": "false answer: first content token of the box (unanswerable)",
+    "measure": "mean OPSA advantage when selected",
+    "base s0": -0.599,
+    "base s1": -0.602,
+    "opsa s0": -0.556
+   },
+   {
+    "group": "correct answer: first content token of the box (originals)",
+    "measure": "n",
+    "base s0": 1180,
+    "base s1": 1185,
+    "opsa s0": 936
+   },
+   {
+    "group": "correct answer: first content token of the box (originals)",
+    "measure": "responses",
+    "base s0": 1180,
+    "base s1": 1185,
+    "opsa s0": 936
+   },
+   {
+    "group": "correct answer: first content token of the box (originals)",
+    "measure": "share in OPSA's set [95% CI]",
+    "base s0": "0.007 [0.002, 0.012]",
+    "base s1": "0.007 [0.002, 0.012]",
+    "opsa s0": "0.006 [0.001, 0.013]"
+   },
+   {
+    "group": "correct answer: first content token of the box (originals)",
+    "measure": "expected (fraction)",
+    "base s0": 0.2,
+    "base s1": 0.2,
+    "opsa s0": 0.2
+   },
+   {
+    "group": "correct answer: first content token of the box (originals)",
+    "measure": "share in random set",
+    "base s0": 0.202,
+    "base s1": 0.198,
+    "opsa s0": 0.176
+   },
+   {
+    "group": "correct answer: first content token of the box (originals)",
+    "measure": "median p(token)",
+    "base s0": 1.0,
+    "base s1": 1.0,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "correct answer: first content token of the box (originals)",
+    "measure": "share p<0.5",
+    "base s0": 0.003,
+    "base s1": 0.002,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "correct answer: first content token of the box (originals)",
+    "measure": "mean OPSA advantage when selected",
+    "base s0": -0.577,
+    "base s1": -0.578,
+    "opsa s0": -0.542
+   }
+  ],
+  "decision": [
+   {
+    "group": "unanswerable, refused",
+    "measure": "n",
+    "base s0": 793.0,
+    "base s1": 787.0,
+    "opsa s0": 457.0
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "P(brace token actually written)",
+    "base s0": 0.661,
+    "base s1": 0.666,
+    "opsa s0": 0.998
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "entropy at the brace",
+    "base s0": 0.5,
+    "base s1": 0.492,
+    "opsa s0": 0.004
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "P('{')",
+    "base s0": 0.528,
+    "base s1": 0.538,
+    "opsa s0": 0.998
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "P('{\\\\')",
+    "base s0": 0.472,
+    "base s1": 0.461,
+    "opsa s0": 0.001
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "P('I' | '{')",
+    "base s0": 0.9845,
+    "base s1": 0.9874,
+    "opsa s0": 0.9995
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "P(digit | '{')",
+    "base s0": 0.009,
+    "base s1": 0.005,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "P(refusal path '{' 'I'), mean",
+    "base s0": 0.5142,
+    "base s1": 0.5272,
+    "opsa s0": 0.9976
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "median",
+    "base s0": 0.5247,
+    "base s1": 0.5465,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "share > 0.1",
+    "base s0": 0.914,
+    "base s1": 0.896,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "share > 0.5",
+    "base s0": 0.527,
+    "base s1": 0.553,
+    "opsa s0": 0.998
+   },
+   {
+    "group": "unanswerable, refused",
+    "measure": "P(worded path '{\\\\' 'text'), mean",
+    "base s0": 0.468,
+    "base s1": 0.4572,
+    "opsa s0": 0.0012
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "n",
+    "base s0": 1459.0,
+    "base s1": 1463.0,
+    "opsa s0": 364.0
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "P(brace token actually written)",
+    "base s0": 0.971,
+    "base s1": 0.969,
+    "opsa s0": 0.997
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "entropy at the brace",
+    "base s0": 0.055,
+    "base s1": 0.06,
+    "opsa s0": 0.007
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "P('{')",
+    "base s0": 0.722,
+    "base s1": 0.733,
+    "opsa s0": 0.639
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "P('{\\\\')",
+    "base s0": 0.226,
+    "base s1": 0.213,
+    "opsa s0": 0.235
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "P('I' | '{')",
+    "base s0": 0.0786,
+    "base s1": 0.074,
+    "opsa s0": 0.0107
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "P(digit | '{')",
+    "base s0": 0.677,
+    "base s1": 0.686,
+    "opsa s0": 0.572
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "P(refusal path '{' 'I'), mean",
+    "base s0": 0.0101,
+    "base s1": 0.0117,
+    "opsa s0": 0.0001
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "median",
+    "base s0": 0.0,
+    "base s1": 0.0,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "share > 0.1",
+    "base s0": 0.025,
+    "base s1": 0.031,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "share > 0.5",
+    "base s0": 0.003,
+    "base s1": 0.005,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "unanswerable, false answer",
+    "measure": "P(worded path '{\\\\' 'text'), mean",
+    "base s0": 0.0549,
+    "base s1": 0.0478,
+    "opsa s0": 0.0026
+   },
+   {
+    "group": "original, correct",
+    "measure": "n",
+    "base s0": 1180.0,
+    "base s1": 1185.0,
+    "opsa s0": 936.0
+   },
+   {
+    "group": "original, correct",
+    "measure": "P(brace token actually written)",
+    "base s0": 0.996,
+    "base s1": 0.992,
+    "opsa s0": 0.999
+   },
+   {
+    "group": "original, correct",
+    "measure": "entropy at the brace",
+    "base s0": 0.008,
+    "base s1": 0.011,
+    "opsa s0": 0.001
+   },
+   {
+    "group": "original, correct",
+    "measure": "P('{')",
+    "base s0": 0.767,
+    "base s1": 0.775,
+    "opsa s0": 0.758
+   },
+   {
+    "group": "original, correct",
+    "measure": "P('{\\\\')",
+    "base s0": 0.183,
+    "base s1": 0.168,
+    "opsa s0": 0.188
+   },
+   {
+    "group": "original, correct",
+    "measure": "P('I' | '{')",
+    "base s0": 0.0145,
+    "base s1": 0.0116,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, correct",
+    "measure": "P(digit | '{')",
+    "base s0": 0.764,
+    "base s1": 0.777,
+    "opsa s0": 0.737
+   },
+   {
+    "group": "original, correct",
+    "measure": "P(refusal path '{' 'I'), mean",
+    "base s0": 0.0007,
+    "base s1": 0.0009,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, correct",
+    "measure": "median",
+    "base s0": 0.0,
+    "base s1": 0.0,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, correct",
+    "measure": "share > 0.1",
+    "base s0": 0.002,
+    "base s1": 0.003,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, correct",
+    "measure": "share > 0.5",
+    "base s0": 0.0,
+    "base s1": 0.0,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, correct",
+    "measure": "P(worded path '{\\\\' 'text'), mean",
+    "base s0": 0.0008,
+    "base s1": 0.0003,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, wrong",
+    "measure": "n",
+    "base s0": 995.0,
+    "base s1": 976.0,
+    "opsa s0": 167.0
+   },
+   {
+    "group": "original, wrong",
+    "measure": "P(brace token actually written)",
+    "base s0": 0.977,
+    "base s1": 0.977,
+    "opsa s0": 0.996
+   },
+   {
+    "group": "original, wrong",
+    "measure": "entropy at the brace",
+    "base s0": 0.033,
+    "base s1": 0.042,
+    "opsa s0": 0.01
+   },
+   {
+    "group": "original, wrong",
+    "measure": "P('{')",
+    "base s0": 0.761,
+    "base s1": 0.763,
+    "opsa s0": 0.557
+   },
+   {
+    "group": "original, wrong",
+    "measure": "P('{\\\\')",
+    "base s0": 0.181,
+    "base s1": 0.181,
+    "opsa s0": 0.215
+   },
+   {
+    "group": "original, wrong",
+    "measure": "P('I' | '{')",
+    "base s0": 0.0214,
+    "base s1": 0.0247,
+    "opsa s0": 0.0061
+   },
+   {
+    "group": "original, wrong",
+    "measure": "P(digit | '{')",
+    "base s0": 0.766,
+    "base s1": 0.755,
+    "opsa s0": 0.474
+   },
+   {
+    "group": "original, wrong",
+    "measure": "P(refusal path '{' 'I'), mean",
+    "base s0": 0.0033,
+    "base s1": 0.0037,
+    "opsa s0": 0.002
+   },
+   {
+    "group": "original, wrong",
+    "measure": "median",
+    "base s0": 0.0,
+    "base s1": 0.0,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, wrong",
+    "measure": "share > 0.1",
+    "base s0": 0.007,
+    "base s1": 0.008,
+    "opsa s0": 0.006
+   },
+   {
+    "group": "original, wrong",
+    "measure": "share > 0.5",
+    "base s0": 0.003,
+    "base s1": 0.003,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, wrong",
+    "measure": "P(worded path '{\\\\' 'text'), mean",
+    "base s0": 0.008,
+    "base s1": 0.007,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "n",
+    "base s0": 68.0,
+    "base s1": 77.0,
+    "opsa s0": 30.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "P(brace token actually written)",
+    "base s0": 0.699,
+    "base s1": 0.665,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "entropy at the brace",
+    "base s0": 0.474,
+    "base s1": 0.518,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "P('{')",
+    "base s0": 0.637,
+    "base s1": 0.606,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "P('{\\\\')",
+    "base s0": 0.362,
+    "base s1": 0.393,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "P('I' | '{')",
+    "base s0": 0.9874,
+    "base s1": 0.9954,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "P(digit | '{')",
+    "base s0": 0.009,
+    "base s1": 0.003,
+    "opsa s0": 0.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "P(refusal path '{' 'I'), mean",
+    "base s0": 0.6293,
+    "base s1": 0.6026,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "median",
+    "base s0": 0.7018,
+    "base s1": 0.6372,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "share > 0.1",
+    "base s0": 0.971,
+    "base s1": 0.974,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "share > 0.5",
+    "base s0": 0.676,
+    "base s1": 0.714,
+    "opsa s0": 1.0
+   },
+   {
+    "group": "original, refused",
+    "measure": "P(worded path '{\\\\' 'text'), mean",
+    "base s0": 0.3528,
+    "base s1": 0.3911,
+    "opsa s0": 0.0
+   }
+  ]
+ }
+}

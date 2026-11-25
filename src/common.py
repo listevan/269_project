@@ -22,13 +22,14 @@ METHODS = ("opsa", "random", "teacher_neg", "nsr")
 
 
 # --------------------------------------------------------------------------- prompt and tokens
-def prompt_text(tok, question: str) -> str:
-    msgs = [{"role": "user", "content": f"{question}\n{INSTRUCTION}"}]
+def prompt_text(tok, question: str, instruction: str = INSTRUCTION, sep: str = "\n") -> str:
+    """The chat prompt: question, separator, instruction; thinking off. SUM joins them with a space (sum_data.py)."""
+    msgs = [{"role": "user", "content": f"{question}{sep}{instruction}"}]
     return tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True, enable_thinking=False)
 
 
-def prompt_ids(tok, question: str) -> list[int]:
-    return tok(prompt_text(tok, question), add_special_tokens=False)["input_ids"]
+def prompt_ids(tok, question: str, instruction: str = INSTRUCTION, sep: str = "\n") -> list[int]:
+    return tok(prompt_text(tok, question, instruction, sep), add_special_tokens=False)["input_ids"]
 
 
 def end_token_ids(tok) -> list[int]:

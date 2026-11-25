@@ -1,0 +1,9 @@
+tokens,n,responses,share in OPSA's set [95% CI],expected (fraction),share in random set,median p(token),share p<0.5,mean OPSA advantage when selected
+refusal: first content token of the boxed refusal,793,793,"0.021 [0.011, 0.034]",0.2,0.219,1.0,0.011,-0.594
+refusal: every token of the boxed refusal,6939,793,"0.084 [0.077, 0.092]",0.2,0.207,1.0,0.04,-0.59
+refusal: brace token that opens the box,793,793,"0.586 [0.546, 0.627]",0.2,0.209,0.703,0.262,-0.584
+hedge phrase in the reasoning of refusing responses: first token,2817,724,"0.583 [0.554, 0.613]",0.2,0.219,0.636,0.41,-0.667
+hedge phrase in the reasoning of refusing responses: every token,7612,724,"0.520 [0.502, 0.539]",0.2,0.208,0.735,0.317,-0.648
+hedge phrase in the reasoning of false-answer responses: first token,747,385,"0.656 [0.606, 0.705]",0.2,0.194,0.505,0.498,-0.69
+false answer: first content token of the box (unanswerable),1459,1459,"0.031 [0.019, 0.043]",0.2,0.188,1.0,0.018,-0.599
+correct answer: first content token of the box (originals),1180,1180,"0.007 [0.002, 0.012]",0.2,0.202,1.0,0.003,-0.577

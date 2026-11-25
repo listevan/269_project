@@ -1,0 +1,9 @@
+{
+ "n_problems": 284,
+ "samples": 8,
+ "max_tokens": 4096,
+ "pool_size": 16,
+ "fraction": 0.2,
+ "model": "Tuwhy/Qwen3-1.7B-OPSA",
+ "seed": 0
+}

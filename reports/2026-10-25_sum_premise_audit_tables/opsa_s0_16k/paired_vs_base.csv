@@ -1,0 +1,12 @@
+responses,variant,outcome,"base (2 seeds, 8 samples, 4k)","OPSA (1 sample, 16k)",OPSA − base [95% CI],bootstrap p
+all,unanswerable,refusal,0.348,0.264,"-0.084 [-0.126, -0.041]",0.0
+all,unanswerable,false_answer,0.643,0.602,"-0.041 [-0.095, +0.014]",0.14
+all,unanswerable,no_answer,0.009,0.134,"+0.125 [+0.088, +0.162]",0.0
+all,answerable,correct,0.52,0.687,"+0.166 [+0.123, +0.210]",0.0
+all,answerable,wrong,0.434,0.204,"-0.230 [-0.275, -0.186]",0.0
+all,answerable,refusal,0.032,0.014,"-0.018 [-0.031, -0.003]",0.019
+completed only,unanswerable,refusal,0.351,0.315,"-0.037 [-0.088, +0.014]",0.15
+completed only,unanswerable,false_answer,0.649,0.685,"+0.037 [-0.014, +0.086]",0.15
+completed only,answerable,correct,0.528,0.769,"+0.241 [+0.197, +0.289]",0.0
+completed only,answerable,wrong,0.44,0.215,"-0.225 [-0.270, -0.181]",0.0
+completed only,answerable,refusal,0.032,0.016,"-0.016 [-0.031, +0.000]",0.054

@@ -1,0 +1,8 @@
+token type,share of OPSA's tokens in refusing responses
+word,0.752
+doubt/fork word,0.111
+punctuation/other,0.09
+math/LaTeX,0.028
+digit,0.01
+space/newline,0.009
+end token,0.0

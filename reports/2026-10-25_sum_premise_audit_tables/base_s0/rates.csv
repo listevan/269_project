@@ -1,0 +1,4 @@
+variant,problems,responses,refusal,false_answer,no_answer,refusal: \boxed{I don't know} form,mean tokens,at generation cap,severe repetition,correct,wrong
+unanswerable,284,2272,"0.349 [0.307, 0.389]","0.642 [0.603, 0.683]","0.009 [0.004, 0.015]","0.341 [0.299, 0.382]",947.0,"0.010 [0.004, 0.017]","0.176 [0.147, 0.206]",,
+answerable,284,2272,"0.030 [0.019, 0.042]",,"0.013 [0.006, 0.021]","0.030 [0.019, 0.042]",945.0,"0.013 [0.007, 0.021]","0.193 [0.160, 0.228]","0.519 [0.467, 0.570]","0.438 [0.391, 0.486]"
+pair: refuses the unanswerable and solves the original (same sample index),284,2272,,,,,,,,"0.224 [0.185, 0.265]",
