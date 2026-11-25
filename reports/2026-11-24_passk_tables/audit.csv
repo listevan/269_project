@@ -1,0 +1,6 @@
+problem,extra_base_samples,base_solved_in_extra,verdict
+test/geometry/561.json,64,0,"still never solved by the base: a candidate new solve, review the derivation by hand"
+test/intermediate_algebra/1197.json,64,0,"still never solved by the base: a candidate new solve, review the derivation by hand"
+test/intermediate_algebra/90.json,64,0,"still never solved by the base: a candidate new solve, review the derivation by hand"
+test/precalculus/1146.json,64,1,the base solves it too: not new
+test/precalculus/1201.json,64,2,the base solves it too: not new

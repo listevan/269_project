@@ -1,0 +1,21 @@
+arm,budget (tokens),pass@1,pass@8
+base A (grouping),1024,0.562,0.73
+base A (grouping),2048,0.656,0.835
+base A (grouping),4096,0.67,0.866
+base B (scoring),1024,0.559,0.74
+base B (scoring),2048,0.661,0.84
+base B (scoring),4096,0.676,0.87
+trained,1024,0.056,0.21
+trained,2048,0.154,0.3
+trained,4096,0.344,0.55
+trained,8192,0.623,0.75
+trained,16384,0.816,0.93
+base T=0.8,1024,0.55,0.72
+base T=0.8,2048,0.644,0.84
+base T=0.8,4096,0.662,0.87
+base T=0.6,1024,0.557,0.72
+base T=0.6,2048,0.659,0.87
+base T=0.6,4096,0.674,0.88
+base T=0.4,1024,0.571,0.7
+base T=0.4,2048,0.667,0.83
+base T=0.4,4096,0.679,0.84

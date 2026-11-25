@@ -1,0 +1,3 @@
+choice,temperature,trained pass@1 (tuning half),base T=0.4 pass@1 (tuning half)
+"held out: T chosen on odd problems, reported on even",0.4,0.797,0.652
+in sample: T chosen on all problems,0.4,0.816,0.679

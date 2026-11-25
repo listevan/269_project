@@ -1,0 +1,11 @@
+{
+ "model": "Tuwhy/Qwen3-1.7B-OPSA",
+ "samples": 8,
+ "max_tokens": 16384,
+ "temperature": 1.0,
+ "seed": 15,
+ "n_problems": 100,
+ "levels": "3,4,5",
+ "problem_seed": 0,
+ "problem_ids": null
+}

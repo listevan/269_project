@@ -1,0 +1,11 @@
+{
+ "model": "Qwen/Qwen3-1.7B",
+ "samples": 8,
+ "max_tokens": 4096,
+ "temperature": 0.6,
+ "seed": 13,
+ "n_problems": 100,
+ "levels": "3,4,5",
+ "problem_seed": 0,
+ "problem_ids": null
+}
