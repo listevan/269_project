@@ -95,8 +95,8 @@ class Panel {
     this.ops.push({ kind: "figs", files, ratio: Math.min(...files.map(pngRatio)) });
     return this;
   }
-  table(rows, colW, pt) {
-    this.ops.push({ kind: "table", rows, colW, pt });
+  table(rows, colW, pt, name) {
+    this.ops.push({ kind: "table", rows, colW, pt, name });
     return this;
   }
   measure() {
@@ -156,12 +156,16 @@ class Panel {
           objectName: f.replace(".png", "") }));
         cy += fh + SP;
       } else if (op.kind === "table") {
-        const rows = op.rows.map((r, i) => r.cells.map((c) => ({ text: c, options: {
-          bold: i === 0, fontSize: op.pt, color: i === 0 ? C.text2 : C.text1, valign: "top",
-          fill: { color: i === 0 ? C.background2 : C.background1 }, margin: 0.05 } })));
+        // a cell is a string, or { text, fill } to tint it (fill in hex, since table fills are hex-only)
+        const rows = op.rows.map((r, i) => r.cells.map((c) => {
+          const cell = typeof c === "string" ? { text: c } : c;
+          return { text: cell.text, options: {
+            bold: i === 0 || !!cell.bold, fontSize: op.pt, color: i === 0 ? C.text2 : C.text1, valign: "top",
+            fill: { color: cell.fill ?? (i === 0 ? C.background2 : C.background1) }, margin: 0.05 } };
+        }));
         const th = op.rows.reduce((s, r) => s + r.h, 0);
         slide.addTable(rows, { x: x + PAD, y: cy, w: INNER, colW: op.colW, rowH: op.rows.map((r) => r.h),
-          border: { type: "solid", color: THEME.colors.lt2, pt: 1.5 }, autoPage: false, objectName: "arms table" });
+          border: { type: "solid", color: THEME.colors.lt2, pt: 1.5 }, autoPage: false, objectName: op.name ?? "table" });
         cy += th + SP;
       }
     }
@@ -196,7 +200,7 @@ const armRows = [
   { cells: ["SFT", "nothing: trains on worked demonstrations", "demonstrations; shows the task is learnable"], h: 0.72 },
 ];
 const methods = new Panel(2, "Methods: seven training arms, one model")
-  .table(armRows, [3.1, 6.2, INNER - 9.3], 19)
+  .table(armRows, [3.1, 6.2, INNER - 9.3], 19, "arms table")
   .text("Qwen3-1.7B throughout, thinking off, T = 1.0, no top-p or top-k; 95% bootstrap intervals over problems or " +
     "items. Every study carries a frozen-model control, the base model resampled with another seed, as its noise floor. " +
     "OPSA's selector follows its released code: per pool of 16 responses, the lowest 20% of log-probabilities. All runs " +
@@ -215,21 +219,46 @@ const limits = new Panel(7, "Limits and next")
     "a second seed of OPSA and the both-sign teacher.",
   ], 20, { name: "limits" });
 
+// Study 1 by rarity band: one row per arm, the change in the correct share with its 95% interval, from the
+// committed reading table. A cell is tinted when the interval excludes zero (green above, orange below).
+function readCsv(file) {
+  const lines = fs.readFileSync(file, "utf8").trim().split("\n");
+  const split = (line) => [...line.matchAll(/("([^"]*)"|[^,]*)(,|$)/g)].slice(0, -1).map((m) => m[2] ?? m[1]);
+  const head = split(lines[0]);
+  return lines.slice(1).map((l) => Object.fromEntries(split(l).map((v, i) => [head[i], v])));
+}
+const reading = readCsv(path.join(ROOT, "reports", "2026-11-24_hidden_rule_tables", "reading.csv"));
+const BAND_ARMS = [["base_B", "Frozen model (noise floor)"], ["opsa", "OPSA"], ["random", "Random"],
+  ["answer_key", "Answer key"], ["teacher_sel", "Teacher-selected"], ["teacher_neg", "Teacher, negative only"],
+  ["teacher_both", "Teacher, both signs"], ["sft", "SFT"]];
+const BANDS = [["rare (<5%)", "Rare\n7 operators, base under 5%"], ["uncommon (5-20%)", "Uncommon\n2 operators, base 5 to 20%"],
+  ["common (>=20%)", "Common\n3 operators, base 27 to 44%"]];
+function bandCell(arm, band) {
+  const row = reading.find((r) => r.arm === arm && r.rarity === band);
+  const m = row.d_correct.match(/^([+-][\d.]+) \[([+-][\d.]+), ([+-][\d.]+)\]$/);
+  const lo = parseFloat(m[2]), hi = parseFloat(m[3]);
+  return { text: row.d_correct, bold: lo > 0 || hi < 0, fill: lo > 0 ? "DDF3E8" : hi < 0 ? "FBE3DA" : undefined };
+}
+const bandRows = [
+  { cells: ["Change in the correct share\n(tint: interval excludes zero)", ...BANDS.map((b) => b[1])], h: 0.72 },
+  ...BAND_ARMS.map(([arm, label]) => ({ cells: [label, ...BANDS.map((b) => bandCell(arm, b[0]))], h: 0.42 })),
+];
+const BAND_COLW = [3.6, (INNER - 3.6) / 3, (INNER - 3.6) / 3, (INNER - 3.6) / 3];
+
 const study1 = new Panel(3, "Study 1. Learning a hidden rule: no negative-only arm grew a rare correct answer")
   .text("\"Compute 7 # 4.\" with a # b = 2a + b never shown. Twelve operators spanning base correct rates 0 to 44%; " +
     "LoRA r = 16, 60 steps at lr 2e-5, 128 prompts per step; evaluated on held-out numbers, 24 items x 16 samples per " +
     "operator.", 20, { color: C.text2, name: "study 1 setup" })
-  .fig("f1_hidden_rule.png", INNER)
+  .fig("f1_hidden_rule.png", 10.0)
+  .table(bandRows, BAND_COLW, 19, "study 1 by band")
   .bullets([
-    "Rare band (7 operators the base gets right under 5% of the time): OPSA -0.003, random +0.000, answer key -0.004, " +
-    "teacher-negative -0.004, all inside the noise floor; SFT on worked examples +0.28 [+0.26, +0.31]. The task is " +
+    "Rare band: every negative-only arm sits inside the noise floor; SFT on worked examples gains +0.28. The task is " +
     "learnable; the on-policy signals do not reach it.",
-    "Common band: OPSA, random and both teacher-negative arms lose 10 to 30 points; the answer key arm gains 15 " +
-    "(+0.155 [+0.099, +0.213]). OPSA's rollout entropy falls 0.245 to 0.097 while random's never moves, so it is the " +
-    "selection that sharpens.",
-    "The both-sign teacher converges on one definition, a + b, for 111 of 128 final rollouts; its positive half has " +
-    "nothing to push up, because the correct definition never appears in the student's own samples. What separates " +
-    "SFT from the rest is not the sign of the update but that its targets contain the answer.",
+    "Common band: OPSA, random and both teacher-negative arms lose 10 to 30 points; the answer key arm gains 15. " +
+    "OPSA's rollout entropy falls 0.245 to 0.097 while random's never moves: the selection is what sharpens.",
+    "The both-sign teacher converges on one definition, a + b, for 111 of 128 final rollouts: the correct definition " +
+    "never appears in the student's own samples, so its positive half has nothing to push up. SFT differs in that its " +
+    "targets contain the answer.",
   ], 22, { name: "study 1 findings" });
 
 const study3 = new Panel(6, "Study 3. Token replay: what OPSA punishes is neither useful nor harmful")

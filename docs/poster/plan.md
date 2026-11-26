@@ -100,7 +100,7 @@ Side facts worth a line each:
   checkpoint's length growth, at speed.
 - Following a definition stated in the prompt survives every on-policy arm (0.995 to 1.000); SFT drops to 0.87.
 
-Figures: `f1_hidden_rule.svg` (dot and interval, rare and common bands). The per-operator scatter
+Figures: `f1_hidden_rule.svg` (dot and interval, rare and common bands), plus a table of every arm by rarity band (rare, uncommon, common; change in the correct share with its interval), read from `reading.csv` when the poster is built. The per-operator scatter
 `reports/2026-11-24_hidden_rule_change_by_rarity.svg` (one panel per arm, log-spaced base rate) can sit beside it
 or replace it if there is room; it shows that every gain or loss comes from operators the base could already read.
 
