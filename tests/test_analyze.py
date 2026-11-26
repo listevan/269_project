@@ -85,18 +85,108 @@ def test_diff_ci_zero_for_same_rows():
 def test_analyze_end_to_end(tmp_path):
     run = _fake_run(tmp_path)
     tables, pf = analyze.analyze(run, n_boot=200, show=None)
-    for name in ("rollouts", "selection", "categories", "overlap", "usefulness", "contrasts", "strata", "noise", "gates"):
+    for name in ("rollouts", "selection", "categories", "overlap", "usefulness", "contrasts", "strata", "noise",
+                 "share_null", "bands", "gates"):
         assert name in tables and len(tables[name]), name
         assert (run / "tables" / f"{name}.csv").exists()
     # replays were drawn from the same rate for kept and redrawn: usefulness should be near zero
     assert abs(pf.usefulness.mean()) < 0.15
     assert set(tables["gates"].verdict) <= {"PASS", "CHECK", "DETECTED", "NOT DETECTED at this size"}
+    assert [g[:2] for g in tables["gates"].gate] == ["0.", "1.", "2.", "3.", "4.", "5."]
+    # kept and redrawn were drawn from the same rate, so the useful share should sit inside the noise band
+    sn = tables["share_null"].set_index("rule").loc[analyze.RULES["opsa"]]
+    lo, hi = (float(v) for v in sn["null share U>0 [95%]"].split("[")[1].rstrip("]").split(","))
+    assert lo <= sn["share U>0"] <= hi
+    assert sn["sd of true U (est.)"] < sn["sampling sd"]
     ex = analyze.examples(pf, common.read_jsonl(run / "scores.jsonl"), "opsa", k=2)
     assert len(ex) <= 4 and "[" in ex.iloc[0]["context"]
     cats = tables["categories"]
     assert abs(cats["all tokens"].sum() - 1.0) < 0.01 and cats.loc["end token", "all tokens"] > 0
     ov = tables["overlap"]
     assert np.isclose(ov.loc[analyze.RULES["opsa"], analyze.RULES["opsa"]], 1.0)
+
+
+def _pf(rows):
+    """A position frame from (rule, p_kept, q_kept, q_redrawn, correct) tuples, 8 + 8 continuations each."""
+    pf = pd.DataFrame([dict(pos_id=f"k{i}@1", key=f"k{i}", problem_id=f"prob{i % 4}", t=1, n_tokens=10, methods=[m],
+                            p_kept=p, response_correct=c, q_kept=qk, q_redrawn=qr, n_kept=8, n_redrawn=8, q_dup=np.nan,
+                            n_dup=0, cont_truncated=0.0) for i, (m, p, qk, qr, c) in enumerate(rows)])
+    pf["usefulness"] = pf.q_kept - pf.q_redrawn
+    pf["usefulness_dup"] = np.nan
+    pf["damage"] = pf.p_kept * (1 - pf.p_kept) * pf.usefulness
+    pf["useful"] = (pf.usefulness > 0).astype(float)
+    pf["harmful"] = (pf.usefulness < 0).astype(float)
+    pf["rel_t"] = 0.1
+    pf["problem_rate"] = 0.5
+    pf["stratum"] = "some correct"
+    return pf
+
+
+def test_null_shares_match_binomial_noise():
+    # every position at a pooled rate of 0.5: P(U > 0) for two Binomial(8, .5) draws is (1 - P(tie)) / 2 = 0.402
+    g = _pf([("opsa", 0.5, 0.5, 0.5, True)] * 40)
+    (pm, lo, hi), (nm, _, _) = analyze.null_shares(g, n_boot=4000)
+    assert abs(pm - 0.402) < 0.01 and abs(nm - 0.402) < 0.01 and lo < pm < hi
+    # pinned at 0 or 1 there is nothing to draw: the null share is 0
+    g = _pf([("opsa", 0.5, 1.0, 1.0, True)] * 10 + [("opsa", 0.5, 0.0, 0.0, False)] * 10)
+    (pm, lo, hi), _ = analyze.null_shares(g)
+    assert pm == lo == hi == 0.0
+
+
+def _band(cell):
+    return tuple(float(v) for v in cell.split("[")[1].rstrip("]").split(","))
+
+
+def test_share_null_table_separates_signal_from_noise():
+    # the same U = 0.75 at every token (7 of 8 kept vs 1 of 8 redrawn): the useful share, 1.0, is far above the
+    # null band (two Binomial(8, .5) draws give about 0.40), the sampling sd is sqrt(2 * .875 * .125 / 7) = 0.177,
+    # and nothing is left over for differences between tokens
+    g = _pf([("opsa", 0.3, 0.875, 0.125, True)] * 24)
+    t = analyze.share_null_table(g).iloc[0]
+    assert t["share U>0"] == 1.0 and t["share U>0"] > _band(t["null share U>0 [95%]"])[1]
+    assert abs(t["sampling sd"] - 0.177) < 0.005 and t["sd of true U (est.)"] == 0
+    # half the tokens at U = +0.75, half at -0.75: the spread is real, sd of true U near 0.75
+    g = _pf([("opsa", 0.3, 0.875, 0.125, True)] * 12 + [("opsa", 0.3, 0.125, 0.875, False)] * 12)
+    t = analyze.share_null_table(g).iloc[0]
+    assert t["share U>0"] == 0.5 and 0.7 < t["sd of true U (est.)"] < 0.8
+
+
+def test_band_table_partitions_positions():
+    g = _pf([("opsa", 0.1, 0.5, 0.25, True), ("opsa", 0.45, 0.5, 0.5, False), ("opsa", 0.7, 0.0, 0.5, False),
+             ("random", 0.995, 1.0, 0.5, True), ("random", 1.0, 1.0, 0.0, True), ("random", 0.85, 0.5, 0.5, False)])
+    t = analyze.band_table(g)
+    assert t.groupby("rule").positions.sum().to_dict() == {analyze.RULES["opsa"]: 3, analyze.RULES["random"]: 3}
+    r = t[(t.rule == analyze.RULES["random"]) & (t["p(token)"] == "0.99 and up")].iloc[0]
+    assert r.positions == 2 and r.usefulness == 0.75 and r["share U>0"] == 1.0
+
+
+def test_signal_gates_read_opsa_alone():
+    rng = np.random.default_rng(0)
+    rnd = [("random", 1.0, qk, 0.5, True) for qk in rng.binomial(8, 0.6, 8) / 8]
+    # kept always succeeds and redrawn always fails at p = 0.5: D = 0.25 everywhere, so both signal gates detect
+    t = analyze.gates({"noise": pd.DataFrame()}, _pf([("opsa", 0.5, 1.0, 0.0, True)] * 16 + rnd), None, n_boot=200)
+    by = t.set_index("gate").verdict
+    assert by.filter(like="4.").iloc[0] == "DETECTED" and by.filter(like="5.").iloc[0] == "DETECTED"
+    # kept and redrawn drawn from the same rate: U scatters around 0, neither gate fires
+    q = rng.binomial(8, 0.5, (32, 2)) / 8
+    g = _pf([("opsa", 0.5, qk, qr, True) for qk, qr in q] + rnd)
+    t = analyze.gates({"noise": pd.DataFrame()}, g, None, n_boot=200)
+    assert set(t[t.gate.str[:2].isin(["4.", "5."])].verdict) == {"NOT DETECTED at this size"}
+    assert not t.gate.str.contains("random").any()
+
+
+def test_positions_csv_round_trip(tmp_path):
+    run = _fake_run(tmp_path)
+    tables, pf = analyze.analyze(run, n_boot=100, show=None)
+    out = tmp_path / "copy"
+    out.mkdir()
+    (out / "positions.csv").write_bytes((run / "tables" / "positions.csv").read_bytes())
+    t2, g2, pf2 = analyze.analyze_positions_csv(out / "positions.csv", n_boot=100, show=None)
+    assert len(pf2) == len(pf) and list(pf2.methods.iloc[0]) == list(pf.methods.iloc[0])
+    pd.testing.assert_frame_equal(t2["usefulness"], tables["usefulness"])
+    pd.testing.assert_frame_equal(t2["bands"], tables["bands"])
+    assert (out / "share_null.csv").exists() and not (out / "gates.csv").exists()
+    assert [g[:2] for g in g2.gate] == ["2.", "3.", "4.", "5."]
 
 
 def test_gate0_from_rollouts_alone(tmp_path):

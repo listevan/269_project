@@ -30,7 +30,8 @@ SMOKE = dict(n_problems=4, samples=4, max_tokens=1024, positions=3, redraws=2, k
 STAGES = ("rollout", "score", "replay", "analyze")
 TITLES = dict(gates="Gates", rollouts="Stage 1 answers by level", usefulness="Usefulness of each rule's tokens",
               contrasts="Each rule minus random", strata="By response outcome and problem difficulty",
-              noise="Replay noise (second kept pass)", selection="What each rule selects (whole sets)",
+              noise="Replay noise (second kept pass)", share_null="Share of useful tokens against the noise floor",
+              bands="By the kept token's probability", selection="What each rule selects (whole sets)",
               categories="Token types in each rule's set (shares)",
               overlap="Overlap: share of the row rule's tokens also in the column rule's set")
 
@@ -160,7 +161,8 @@ def main(argv=None):
 
     # Results: every table also goes to <run>/tables/. Read the gates first.
     tables, pf = analyze.analyze(out, show=None)
-    show(log, tables, ("gates", "rollouts", "usefulness", "contrasts", "strata", "noise", "selection", "categories", "overlap"))
+    show(log, tables, ("gates", "rollouts", "usefulness", "contrasts", "strata", "noise", "share_null", "bands", "selection",
+                       "categories", "overlap"))
     scores = common.read_jsonl(out / "scores.jsonl")
     for rule in ("opsa", "teacher_neg"):
         log(f"\n** {analyze.RULES[rule]}: most useful and most harmful replayed tokens, [kept token] in context **")

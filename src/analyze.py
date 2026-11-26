@@ -12,6 +12,11 @@ Per replayed position t with kept token y and token probability p:
               token's logit (derivation in the notebook)
 Means carry 95% bootstrap intervals that resample problems, because positions from one problem are not
 independent. Every table is also written to <run>/tables/<name>.csv.
+
+The share of tokens with U > 0 is read against the share sampling noise alone would give (share_null table): at
+8 + 8 continuations a single position's U is a coarse estimate, so part of any share is chance.
+
+    uv run src/analyze.py --positions-csv <tables/positions.csv>   # the replay tables from the committed CSV alone
 """
 import argparse
 import sys
@@ -207,6 +212,81 @@ def noise_table(pf, kept_n, seed=0):
     }])
 
 
+P_BANDS = ((0.0, 0.2, "p < 0.2"), (0.2, 0.5, "0.2 to 0.5"), (0.5, 0.8, "0.5 to 0.8"), (0.8, 0.99, "0.8 to 0.99"),
+           (0.99, 1.01, "0.99 and up"))
+
+
+def null_shares(g, n_boot=4000, seed=0):
+    """What sampling alone would give for the shares of U > 0 and U < 0 if every token had U = 0: two binomial
+    draws per position at its pooled success rate, with the run's own kept and redrawn counts.
+    Returns ((mean, lo, hi) for U > 0, (mean, lo, hi) for U < 0), lo and hi the 95% band."""
+    rng = np.random.default_rng(seed)
+    nk, nr = g.n_kept.to_numpy(int), g.n_redrawn.to_numpy(int)
+    pooled = ((g.q_kept * nk + g.q_redrawn * nr) / (nk + nr)).to_numpy()
+    u = rng.binomial(nk, pooled, (n_boot, len(g))) / nk - rng.binomial(nr, pooled, (n_boot, len(g))) / nr
+    return tuple((float(s.mean()), *np.percentile(s, [2.5, 97.5]).tolist()) for s in ((u > 0).mean(1), (u < 0).mean(1)))
+
+
+def share_null_table(pf, n_boot=4000, seed=0):
+    """The share of a rule's tokens with U > 0 (and U < 0) next to the share sampling noise alone would give if
+    every token had U = 0 (null_shares). A share inside the null band is not evidence of useful or harmful tokens.
+    The last columns split the spread of U into sampling noise and what is left for real differences between
+    tokens: sd of true U = sqrt(var(U) - mean binomial variance), 0 when nothing is left."""
+    rows = []
+    for rule, label in RULES.items():
+        g = rule_rows(pf, rule)
+        if len(g) < 2:
+            continue
+        (pm, plo, phi), (nm, nlo, nhi) = null_shares(g, n_boot, seed)
+        nk, nr = g.n_kept.to_numpy(int), g.n_redrawn.to_numpy(int)
+        noise = float((g.q_kept * (1 - g.q_kept) / np.maximum(nk - 1, 1)
+                       + g.q_redrawn * (1 - g.q_redrawn) / np.maximum(nr - 1, 1)).mean())
+        var_u = float(g.usefulness.var())
+        rows.append({"rule": label, "positions": len(g),
+                     "share U>0": round(g.useful.mean(), 2), "null share U>0 [95%]": f"{pm:.2f} [{plo:.2f}, {phi:.2f}]",
+                     "share U<0": round(g.harmful.mean(), 2), "null share U<0 [95%]": f"{nm:.2f} [{nlo:.2f}, {nhi:.2f}]",
+                     "sd(U)": round(np.sqrt(var_u), 3), "sampling sd": round(np.sqrt(noise), 3),
+                     "sd of true U (est.)": round(np.sqrt(max(var_u - noise, 0.0)), 3)})
+    return pd.DataFrame(rows)
+
+
+def band_table(pf):
+    """Each rule's replayed tokens by the student's probability of the kept token. Separates what a rule selects
+    at p near 1, where a push barely moves the token and a replacement is off-distribution, from what it selects
+    where a push has leverage."""
+    rows = []
+    for rule, label in RULES.items():
+        g = rule_rows(pf, rule)
+        for lo, hi, name in P_BANDS:
+            s = g[(g.p_kept >= lo) & (g.p_kept < hi)]
+            if len(s):
+                rows.append({"rule": label, "p(token)": name, "positions": len(s),
+                             "in correct responses": round(s.response_correct.mean(), 2),
+                             "Q_kept": round(s.q_kept.mean(), 3), "Q_replaced": round(s.q_redrawn.mean(), 3),
+                             "usefulness": round(s.usefulness.mean(), 3), "damage": round(s.damage.mean(), 4),
+                             "share U>0": round(s.useful.mean(), 2), "share U<0": round(s.harmful.mean(), 2)})
+    return pd.DataFrame(rows)
+
+
+def replay_tables(pf, kept_n, n_boot=2000):
+    """Every table that needs only the position frame (stage 3 done)."""
+    return {"usefulness": usefulness_table(pf, n_boot), "contrasts": contrast_table(pf, n_boot),
+            "strata": strata_table(pf), "noise": noise_table(pf, kept_n),
+            "share_null": share_null_table(pf), "bands": band_table(pf)}
+
+
+def position_frame_from_csv(path):
+    """tables/positions.csv read back with its list columns restored, so the replay tables can be rebuilt from
+    the committed CSV when the run folder is not at hand."""
+    import ast
+
+    pf = pd.read_csv(path)
+    for col in ("methods", "in_sets", "alt_strs"):
+        if col in pf:
+            pf[col] = pf[col].apply(lambda s: ast.literal_eval(s) if isinstance(s, str) and s.startswith("[") else s)
+    return pf
+
+
 def _category(s):
     if s in common.END_TOKENS:
         return "end token"
@@ -281,9 +361,11 @@ def mixed_problems(rollouts_table):
     return int(tot.some_correct), int(tot.problems), per
 
 
-def gates(tables, pf=None, agreement=None, min_mixed=20):
+def gates(tables, pf=None, agreement=None, min_mixed=20, n_boot=2000):
     """The pilot's pass/fail checks, in order: data, wiring, noise, signal. A gate appears once its inputs
-    exist, so right after stage 1 the table holds gate 0 alone."""
+    exist, so right after stage 1 the table holds gate 0 alone. The signal gates (4, 5) look at OPSA's own set:
+    the contrast with random tokens is reported in the contrasts table but is no gate, because random tokens sit
+    at p near 1, where a replacement is off-distribution, so that contrast fires for structural reasons."""
     out = []
     rt = tables.get("rollouts")
     if rt is not None and len(rt):
@@ -307,13 +389,16 @@ def gates(tables, pf=None, agreement=None, min_mixed=20):
         o, e = nt.iloc[0]["mean |Q_kept - Q_dup|"], nt.iloc[0]["expected from sampling alone"]
         out.append(("3. no replay noise beyond sampling", f"mean |Q_kept - Q_dup| {o:.3f} vs {e:.3f} expected",
                     "PASS" if o <= 1.25 * e + 0.01 else "CHECK"))
-    ct = tables.get("contrasts")
-    if ct is not None and not ct.empty:
-        row = ct[(ct.contrast.str.startswith("OPSA")) & (ct.measure == "usefulness")]
-        if len(row):
-            p = row.iloc[0]["bootstrap p"]
-            out.append(("4. OPSA's tokens differ from random ones", row.iloc[0]["difference [95% CI]"],
-                        "DETECTED" if p < 0.05 else "NOT DETECTED at this size"))
+    opsa = rule_rows(pf, "opsa")
+    if len(opsa) > 2:
+        m, lo, hi = mean_ci(opsa, "damage", n_boot)
+        out.append(("4. a push on OPSA's tokens moves success", f"damage D = {fmt_ci(m, lo, hi, 4)}",
+                    "DETECTED" if (lo > 0 or hi < 0) else "NOT DETECTED at this size"))
+        (pm, plo, phi), _ = null_shares(opsa)
+        obs = opsa.useful.mean()
+        out.append(("5. OPSA's useful share is outside the noise band",
+                    f"share U>0 {obs:.2f} vs {pm:.2f} [{plo:.2f}, {phi:.2f}] if every token had U = 0",
+                    "DETECTED" if (obs > phi or obs < plo) else "NOT DETECTED at this size"))
     return pd.DataFrame(out, columns=["gate", "value", "verdict"])
 
 
@@ -328,11 +413,8 @@ def analyze(run, n_boot=2000, write=True, show=print):
     if d["positions"] and d["replays"]:
         kept_n = common.read_json(run / "replay.meta.json")["kept"] if (run / "replay.meta.json").exists() else 8
         pf = position_frame(d["positions"], d["replays"], d["rollouts"])
-        tables["usefulness"] = usefulness_table(pf, n_boot)
-        tables["contrasts"] = contrast_table(pf, n_boot)
-        tables["strata"] = strata_table(pf)
-        tables["noise"] = noise_table(pf, kept_n)
-    tables["gates"] = gates(tables, pf, agreement)
+        tables.update(replay_tables(pf, kept_n, n_boot))
+    tables["gates"] = gates(tables, pf, agreement, n_boot=n_boot)
     if write:
         (run / "tables").mkdir(exist_ok=True)
         for name, t in tables.items():
@@ -347,12 +429,38 @@ def analyze(run, n_boot=2000, write=True, show=print):
     return tables, pf
 
 
+def analyze_positions_csv(path, n_boot=2000, show=print):
+    """The replay tables and gates 2 to 5 from a saved positions.csv; the tables are written next to it,
+    the gates only printed (gates 0 and 1 need the run folder, so an incomplete gates.csv is not written)."""
+    path = Path(path)
+    pf = position_frame_from_csv(path)
+    tables = replay_tables(pf, int(pf.n_kept.max()), n_boot)
+    for name, t in tables.items():
+        t.to_csv(path.parent / f"{name}.csv", index=False)
+    g = gates(tables, pf, None, n_boot=n_boot)
+    if show:
+        for name, t in tables.items():
+            show(f"\n## {name}\n")
+            show(t.to_string(index=False))
+        show("\n## gates (2 to 5; 0 and 1 need the run folder)\n")
+        show(g.to_string(index=False))
+        show(f"\ntables written next to {path}")
+    return tables, g, pf
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--run", required=True)
+    ap.add_argument("--run", help="the run folder")
+    ap.add_argument("--positions-csv", help="instead of a run folder: rebuild the replay tables from a saved "
+                    "tables/positions.csv and write them next to it (gates 0 and 1 need the run folder)")
     ap.add_argument("--boot", type=int, default=2000)
     args = ap.parse_args(argv)
-    analyze(args.run, args.boot)
+    if args.positions_csv:
+        analyze_positions_csv(args.positions_csv, args.boot)
+    elif args.run:
+        analyze(args.run, args.boot)
+    else:
+        ap.error("give --run or --positions-csv")
 
 
 if __name__ == "__main__":

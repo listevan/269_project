@@ -49,7 +49,7 @@ For a token y at position t of a response to prompt x, with probability p under 
 | Q_replaced | share of 8 continuations of x, y<sub>&lt;t</sub>, a that end correct, each a drawn from p with y removed | success if the token's probability goes elsewhere |
 | usefulness U | Q_kept − Q_replaced | U > 0: the token helps, so pushing it down hurts |
 | damage D | p (1 − p) U | expected loss in success from one unit of push on y's logit |
-| share useful | share of a rule's tokens (in the replayed problems) with U > 0 | the abstract's "share of useful tokens in a method's penalized set" |
+| share useful | share of a rule's tokens (in the replayed problems) with U > 0, read against the share that sampling noise alone would give if every token had U = 0 | the abstract's "share of useful tokens in a method's penalized set" |
 
 **Why replace by drawing from p with y removed.** A negative update on y lowers its logit, and the softmax hands
 its probability to every other token in proportion to that token's probability. Drawing from p with y removed is
@@ -71,9 +71,10 @@ behavior at other tokens through the shared weights.
 1. **Scoring matches sampling.** Teacher-forced log-probabilities equal vLLM's for the same tokens (mean gap under 0.02).
 2. **Replay reproduces the state.** Q_kept at random positions tracks the problem's rollout success (correlation above 0.5).
 3. **Replay noise is only sampling noise.** The second kept pass differs from the first by no more than binomial noise predicts.
-4. **Signal.** OPSA's mean usefulness differs from random's, with a 95% interval that resamples problems.
+4. **Signal.** A push on OPSA's tokens moves success: the 95% interval of OPSA's mean damage D, resampling problems, excludes zero.
+5. **Useful share above noise.** The share of OPSA's tokens with U > 0 lies outside the band that sampling noise alone would give if every token had U = 0 (two binomial draws per position at its pooled success rate).
 
-If 0 to 3 pass, the next step is a larger run (more positions, MBPP+) and the same replay on the released OPSA checkpoint.
+The contrast with random tokens is reported but is no gate: random tokens sit at p near 1, where any replacement is off-distribution, so that contrast fires for structural reasons. If 0 to 3 pass, the instrument works; the next steps are the same replay on the released OPSA checkpoint, the instrument on study 2's refusal decisions, and more continuations per position where single tokens need a label (8 + 8 cannot give one).
 
 **Run order.** Set `SMOKE = True` first: about 5 minutes, checks wiring only. Then `SMOKE = False` for the pilot.
 """
@@ -234,9 +235,10 @@ from IPython.display import display, Markdown
 tables, pf = analyze.analyze(OUT, show=None)
 titles = dict(gates="Gates", rollouts="Stage 1 answers by level", usefulness="Usefulness of each rule's tokens",
               contrasts="Each rule minus random", strata="By response outcome and problem difficulty",
-              noise="Replay noise (second kept pass)", selection="What each rule selects (whole sets)",
+              noise="Replay noise (second kept pass)", share_null="Share of useful tokens against the noise floor",
+              bands="By the kept token's probability", selection="What each rule selects (whole sets)",
               categories="Token types in each rule's set (shares)", overlap="Overlap: share of the row rule's tokens also in the column rule's set")
-for name in ("gates", "rollouts", "usefulness", "contrasts", "strata", "noise", "selection", "categories", "overlap"):
+for name in ("gates", "rollouts", "usefulness", "contrasts", "strata", "noise", "share_null", "bands", "selection", "categories", "overlap"):
     if name in tables:
         display(Markdown(f"**{titles[name]}**"))
         display(tables[name])
