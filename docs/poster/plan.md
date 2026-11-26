@@ -175,10 +175,10 @@ labelled useful or harmful. What OPSA selects is clear: words and doubt words, a
 
 | Rule (64 positions each, MATH-500 levels 3 to 5) | usefulness U [95% CI] | share U > 0 (null band) | damage p(1-p)U |
 |---|---|---|---|
-| OPSA, lowest 20% log-prob | -0.027 [-0.075, +0.011] | 0.25 (0.24 [0.14, 0.34]) | -0.0053 [-0.0132, +0.0007] |
-| random 20% | +0.068 [+0.008, +0.128] | 0.42 (0.25 [0.16, 0.36]) | +0.0007 [-0.0005, +0.0020] |
-| teacher-negative 20% | -0.018 [-0.050, +0.020] | 0.19 (0.22 [0.12, 0.31]) | -0.0012 [-0.0057, +0.0024] |
-| NSR, every token of a failed answer | +0.002 [-0.034, +0.034] | 0.28 (0.23 [0.14, 0.33]) | -0.0003 [-0.0033, +0.0025] |
+| OPSA, lowest 20% log-prob | -0.027 [-0.075, +0.011] | 0.25 (0.30 [0.20, 0.39]) | -0.0053 [-0.0132, +0.0007] |
+| random 20% | +0.068 [+0.008, +0.128] | 0.42 (0.29 [0.20, 0.39]) | +0.0007 [-0.0005, +0.0020] |
+| teacher-negative 20% | -0.018 [-0.050, +0.020] | 0.19 (0.25 [0.16, 0.34]) | -0.0012 [-0.0057, +0.0024] |
+| NSR, every token of a failed answer | +0.002 [-0.034, +0.034] | 0.28 (0.27 [0.17, 0.36]) | -0.0003 [-0.0033, +0.0025] |
 
 Random's usefulness sits entirely in near-certain tokens (p > 0.99) inside correct answers (U = +0.174 on 18
 positions); random tokens below p = 0.8 have U = 0.000 together. So the OPSA-minus-random gap, -0.096
@@ -197,8 +197,8 @@ Figures: `f5a_replay_usefulness.svg`, `f5b_token_types.svg`.
 ## Panel 7. Takeaways
 
 1. Punishment alone did not teach a hidden rule, with or without a teacher or an answer key. Every negative-only
-   arm stayed at the noise floor on rare operators and lost 10 to 30 points on common ones; SFT gained 28 points
-   on the rare ones. What separates SFT from the rest is not the sign of the update but that its targets contain
+   arm stayed at the noise floor on rare operators; on common ones OPSA, random and both teacher-negative arms
+   lost 10 to 30 points while the answer key arm gained 15. SFT gained 28 points on the rare ones. What separates SFT from the rest is not the sign of the update but that its targets contain
    the answer.
 2. The mechanism-level premise about refusals held (OPSA's rule punishes the hedging that starts a refusal at
    three times the base rate), but the behaviour-level effect is small or absent in the released checkpoint.

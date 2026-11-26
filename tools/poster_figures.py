@@ -560,7 +560,7 @@ def fig_replay():
     for (_, row), y in zip(ob.iterrows(), ys):
         ax2.bar_ci(y, float(row.usefulness), 0, 0, BLUE, label=signed(float(row.usefulness)))
     yr = note(s, x2, ya + T["AS"] * 1.2, "OPSA's rarest tokens (p < 0.2) are not hidden good steps. Its useful "
-              "share, 25%, is what sampling noise alone gives when every token has U = 0 (null 24% [14%, 34%]); the "
+              "share, 25%, is what sampling noise alone gives when every token has U = 0 (null 30% [20%, 39%]); the "
               "same holds for its 33% harmful share.", lab2 + pw + right)
     s.h = max(yl, yr) + 4
     return s.save("f5a_replay_usefulness.svg")

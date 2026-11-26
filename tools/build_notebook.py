@@ -72,7 +72,7 @@ behavior at other tokens through the shared weights.
 2. **Replay reproduces the state.** Q_kept at random positions tracks the problem's rollout success (correlation above 0.5).
 3. **Replay noise is only sampling noise.** The second kept pass differs from the first by no more than binomial noise predicts.
 4. **Signal.** A push on OPSA's tokens moves success: the 95% interval of OPSA's mean damage D, resampling problems, excludes zero.
-5. **Useful share above noise.** The share of OPSA's tokens with U > 0 lies outside the band that sampling noise alone would give if every token had U = 0 (two binomial draws per position at its pooled success rate).
+5. **Useful share above noise.** The share of OPSA's tokens with U > 0 lies outside the band that sampling noise alone would give if every token had U = 0 (each position's observed successes dealt back out between the kept and redrawn branches at random).
 
 The contrast with random tokens is reported but is no gate: random tokens sit at p near 1, where any replacement is off-distribution, so that contrast fires for structural reasons. If 0 to 3 pass, the instrument works; the next steps are the same replay on the released OPSA checkpoint, the instrument on study 2's refusal decisions, and more continuations per position where single tokens need a label (8 + 8 cannot give one).
 

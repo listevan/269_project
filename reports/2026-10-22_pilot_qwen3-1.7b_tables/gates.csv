@@ -3,4 +3,5 @@ gate,value,verdict
 1. scoring matches sampling,"mean |HF - vLLM| log-prob 0.0082, 99th pct 0.121",PASS
 2. replay reproduces the rollout state,"corr(Q_kept at random positions, problem's rollout success) = 0.78",PASS
 3. no replay noise beyond sampling,mean |Q_kept - Q_dup| 0.104 vs 0.106 expected,PASS
-4. OPSA's tokens differ from random ones,"-0.096 [-0.174, -0.019]",DETECTED
+4. a push on OPSA's tokens moves success,"damage D = -0.0053 [-0.0132, +0.0007]",NOT DETECTED at this size
+5. OPSA's useful share is outside the noise band,"share U>0 0.25 vs 0.30 [0.20, 0.39] if every token had U = 0",NOT DETECTED at this size

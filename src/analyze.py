@@ -217,13 +217,18 @@ P_BANDS = ((0.0, 0.2, "p < 0.2"), (0.2, 0.5, "0.2 to 0.5"), (0.5, 0.8, "0.5 to 0
 
 
 def null_shares(g, n_boot=4000, seed=0):
-    """What sampling alone would give for the shares of U > 0 and U < 0 if every token had U = 0: two binomial
-    draws per position at its pooled success rate, with the run's own kept and redrawn counts.
+    """What sampling alone would give for the shares of U > 0 and U < 0 if every token had U = 0: at each position
+    the successes observed in both branches together are dealt back out between kept and redrawn at random (a
+    hypergeometric draw), with the run's own kept and redrawn counts. Conditioning on the observed total keeps the
+    band honest where success rates sit near 0 or 1: fresh binomial draws at the estimated pooled rate understate
+    the null there (one success in 16 gives U > 0 half the time, not one time in twenty).
     Returns ((mean, lo, hi) for U > 0, (mean, lo, hi) for U < 0), lo and hi the 95% band."""
     rng = np.random.default_rng(seed)
     nk, nr = g.n_kept.to_numpy(int), g.n_redrawn.to_numpy(int)
-    pooled = ((g.q_kept * nk + g.q_redrawn * nr) / (nk + nr)).to_numpy()
-    u = rng.binomial(nk, pooled, (n_boot, len(g))) / nk - rng.binomial(nr, pooled, (n_boot, len(g))) / nr
+    total = np.rint(g.q_kept.to_numpy() * nk + g.q_redrawn.to_numpy() * nr).astype(int)
+    shape = (n_boot, len(g))
+    kept = rng.hypergeometric(np.broadcast_to(nk, shape), np.broadcast_to(nr, shape), np.broadcast_to(total, shape))
+    u = kept / nk - (total - kept) / nr
     return tuple((float(s.mean()), *np.percentile(s, [2.5, 97.5]).tolist()) for s in ((u > 0).mean(1), (u < 0).mean(1)))
 
 

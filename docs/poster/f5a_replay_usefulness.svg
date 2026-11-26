@@ -66,5 +66,5 @@
 <text x="864.2" y="227.0" font-size="12" fill="#52514e" text-anchor="start">+0.01</text>
 <text x="562.1" y="292.6" font-size="12" fill="#52514e" text-anchor="start">OPSA's rarest tokens (p &lt; 0.2) are not hidden good steps. Its useful</text>
 <text x="562.1" y="308.8" font-size="12" fill="#52514e" text-anchor="start">share, 25%, is what sampling noise alone gives when every token has U =</text>
-<text x="562.1" y="325.0" font-size="12" fill="#52514e" text-anchor="start">0 (null 24% [14%, 34%]); the same holds for its 33% harmful share.</text>
+<text x="562.1" y="325.0" font-size="12" fill="#52514e" text-anchor="start">0 (null 30% [20%, 39%]); the same holds for its 33% harmful share.</text>
 </svg>

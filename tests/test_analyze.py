@@ -1,5 +1,7 @@
 import json
 
+import math
+
 import numpy as np
 import pandas as pd
 
@@ -122,15 +124,34 @@ def _pf(rows):
     return pf
 
 
-def test_null_shares_match_binomial_noise():
-    # every position at a pooled rate of 0.5: P(U > 0) for two Binomial(8, .5) draws is (1 - P(tie)) / 2 = 0.402
+def test_null_shares_deal_the_observed_successes_out_at_random():
+    # 4 of 8 kept and 4 of 8 redrawn at every position: the 8 successes land k in kept with k ~ Hypergeom(16, 8, 8),
+    # P(k = 4) = C(8,4)^2 / C(16,8) = 0.381, so P(U > 0) = (1 - 0.381) / 2 = 0.310
     g = _pf([("opsa", 0.5, 0.5, 0.5, True)] * 40)
     (pm, lo, hi), (nm, _, _) = analyze.null_shares(g, n_boot=4000)
-    assert abs(pm - 0.402) < 0.01 and abs(nm - 0.402) < 0.01 and lo < pm < hi
-    # pinned at 0 or 1 there is nothing to draw: the null share is 0
+    assert abs(pm - 0.310) < 0.01 and abs(nm - 0.310) < 0.01 and lo < pm < hi
+    # pinned at 0 or 1 there is nothing to deal out: the null share is 0
     g = _pf([("opsa", 0.5, 1.0, 1.0, True)] * 10 + [("opsa", 0.5, 0.0, 0.0, False)] * 10)
     (pm, lo, hi), _ = analyze.null_shares(g)
     assert pm == lo == hi == 0.0
+
+
+def test_null_shares_stay_calibrated_at_boundary_rates():
+    # equal true rates of 0.05 in both branches, U = 0 everywhere: the null share should match the analytic
+    # P(X > Y) for X, Y ~ Binomial(8, 0.05), and gate 5's band should fire about one time in twenty, not one in three
+    # (fresh binomial draws at each position's estimated pooled rate give a null mean of 0.165 here)
+    pmf = np.array([math.comb(8, k) * 0.05 ** k * 0.95 ** (8 - k) for k in range(9)])
+    truth = (1 - (pmf ** 2).sum()) / 2
+    means, fires = [], 0
+    for seed in range(60):
+        rng = np.random.default_rng(seed)
+        q = rng.binomial(8, 0.05, (64, 2)) / 8
+        g = _pf([("opsa", 0.5, qk, qr, False) for qk, qr in q])
+        (pm, lo, hi), _ = analyze.null_shares(g, n_boot=1000, seed=seed)
+        means.append(pm)
+        fires += g.useful.mean() > hi or g.useful.mean() < lo
+    assert abs(np.mean(means) - truth) < 0.02, (np.mean(means), truth)
+    assert fires <= 9, fires
 
 
 def _band(cell):

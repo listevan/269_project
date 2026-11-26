@@ -224,8 +224,9 @@ const study1 = new Panel(3, "Study 1. Learning a hidden rule: no negative-only a
     "Rare band (7 operators the base gets right under 5% of the time): OPSA -0.003, random +0.000, answer key -0.004, " +
     "teacher-negative -0.004, all inside the noise floor; SFT on worked examples +0.28 [+0.26, +0.31]. The task is " +
     "learnable; the on-policy signals do not reach it.",
-    "Common band: the punishment arms lose 10 to 30 points. OPSA's rollout entropy falls 0.245 to 0.097 while random's " +
-    "never moves, so it is the selection that sharpens.",
+    "Common band: OPSA, random and both teacher-negative arms lose 10 to 30 points; the answer key arm gains 15 " +
+    "(+0.155 [+0.099, +0.213]). OPSA's rollout entropy falls 0.245 to 0.097 while random's never moves, so it is the " +
+    "selection that sharpens.",
     "The both-sign teacher converges on one definition, a + b, for 111 of 128 final rollouts; its positive half has " +
     "nothing to push up, because the correct definition never appears in the student's own samples. What separates " +
     "SFT from the rest is not the sign of the update but that its targets contain the answer.",
@@ -235,7 +236,7 @@ const study3 = new Panel(6, "Study 3. Token replay: what OPSA punishes is neithe
   .fig("f5a_replay_usefulness.png", 12.5)
   .bullets([
     "OPSA's tokens: U = -0.027 [-0.075, +0.011], damage p(1-p)U = -0.0053 [-0.0132, +0.0007]. Its 25% useful share " +
-    "equals the noise floor (null 24% [14%, 34%]): per-token labels need more continuations, not more positions.",
+    "equals the noise floor (null 30% [20%, 39%]): per-token labels need more continuations, not more positions.",
     "Random tokens look useful (+0.068) only through near-certain tokens in correct answers (p > 0.99): replacing one " +
     "breaks the answer. OPSA's set is 59% words and 2% digits, with doubt words four times over-represented.",
   ], 22, { name: "study 3 findings" });
