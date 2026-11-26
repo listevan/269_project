@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="345" viewBox="0 0 1060 345" font-family="Inter, Helvetica, Arial, sans-serif" font-size="13">
+<rect width="1060" height="345" fill="#ffffff"/>
+<text x="24.0" y="28.0" font-size="16" fill="#0b0b0b" text-anchor="start" font-weight="600">Study 3. Are the tokens OPSA punishes worth keeping? Usefulness by replay on MATH-500</text>
+<text x="24.0" y="49.6" font-size="12" fill="#52514e" text-anchor="start">Qwen3-1.7B, 64 positions per rule from 24 mixed problems; 8 continuations with the token kept and 8 with it replaced. U = P(correct | kept) minus</text>
+<text x="24.0" y="65.2" font-size="12" fill="#52514e" text-anchor="start">P(correct | replaced); 95% intervals over problems. Right: OPSA's tokens by the model's probability of the token, positions in brackets.</text>
+<text x="24.0" y="85.6" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600">Mean usefulness of each rule's tokens</text>
+<line x1="191.0" y1="103.8" x2="191.0" y2="239.8" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="191.0" y="255.4" font-size="12" fill="#52514e" text-anchor="middle">-0.2</text>
+<line x1="258.3" y1="103.8" x2="258.3" y2="239.8" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="258.3" y="255.4" font-size="12" fill="#52514e" text-anchor="middle">-0.1</text>
+<line x1="325.6" y1="103.8" x2="325.6" y2="239.8" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="325.6" y="255.4" font-size="12" fill="#52514e" text-anchor="middle">0</text>
+<line x1="392.9" y1="103.8" x2="392.9" y2="239.8" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="392.9" y="255.4" font-size="12" fill="#52514e" text-anchor="middle">+0.1</text>
+<line x1="460.1" y1="103.8" x2="460.1" y2="239.8" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="460.1" y="255.4" font-size="12" fill="#52514e" text-anchor="middle">+0.2</text>
+<line x1="325.6" y1="103.8" x2="325.6" y2="239.8" stroke="#52514e" stroke-width="1" stroke-linecap="butt"/>
+<text x="325.6" y="272.2" font-size="12" fill="#52514e" text-anchor="middle">usefulness U (&gt; 0: pushing the token down hurts)</text>
+<text x="24.0" y="125.3" font-size="13" fill="#0b0b0b" text-anchor="start">OPSA: lowest 20%</text>
+<text x="24.0" y="159.4" font-size="13" fill="#0b0b0b" text-anchor="start">random 20%</text>
+<text x="24.0" y="193.4" font-size="13" fill="#0b0b0b" text-anchor="start">teacher-negative 20%</text>
+<text x="24.0" y="227.4" font-size="13" fill="#0b0b0b" text-anchor="start">NSR: failed answers</text>
+<line x1="275.1" y1="120.8" x2="333.0" y2="120.8" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="307.4" cy="120.8" r="7" fill="#ffffff"/>
+<circle cx="307.4" cy="120.8" r="5" fill="#2a78d6"/>
+<text x="344.0" y="125.0" font-size="12" fill="#52514e" text-anchor="start">-0.03</text>
+<line x1="331.0" y1="154.8" x2="411.7" y2="154.8" stroke="#b5b4ae" stroke-width="2" stroke-linecap="round"/>
+<circle cx="371.3" cy="154.8" r="7" fill="#ffffff"/>
+<circle cx="371.3" cy="154.8" r="5" fill="#b5b4ae"/>
+<text x="422.7" y="159.0" font-size="12" fill="#52514e" text-anchor="start">+0.07</text>
+<line x1="291.9" y1="188.8" x2="339.0" y2="188.8" stroke="#b5b4ae" stroke-width="2" stroke-linecap="round"/>
+<circle cx="313.5" cy="188.8" r="7" fill="#ffffff"/>
+<circle cx="313.5" cy="188.8" r="5" fill="#b5b4ae"/>
+<text x="350.0" y="193.0" font-size="12" fill="#52514e" text-anchor="start">-0.02</text>
+<line x1="302.7" y1="222.8" x2="348.5" y2="222.8" stroke="#b5b4ae" stroke-width="2" stroke-linecap="round"/>
+<circle cx="326.9" cy="222.8" r="7" fill="#ffffff"/>
+<circle cx="326.9" cy="222.8" r="5" fill="#b5b4ae"/>
+<text x="359.5" y="227.0" font-size="12" fill="#52514e" text-anchor="start">0</text>
+<text x="24.0" y="292.6" font-size="12" fill="#52514e" text-anchor="start">Random's effect sits entirely in near-certain tokens (p &gt; 0.99) inside</text>
+<text x="24.0" y="308.8" font-size="12" fill="#52514e" text-anchor="start">correct answers: replacing one breaks the answer. OPSA has no such</text>
+<text x="24.0" y="325.0" font-size="12" fill="#52514e" text-anchor="start">tokens, so the gap is about determinism, not selection.</text>
+<text x="562.1" y="85.6" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600">OPSA's tokens by the token's probability</text>
+<line x1="714.9" y1="103.8" x2="714.9" y2="239.8" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="714.9" y="255.4" font-size="12" fill="#52514e" text-anchor="middle">-0.2</text>
+<line x1="782.1" y1="103.8" x2="782.1" y2="239.8" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="782.1" y="255.4" font-size="12" fill="#52514e" text-anchor="middle">-0.1</text>
+<line x1="849.4" y1="103.8" x2="849.4" y2="239.8" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="849.4" y="255.4" font-size="12" fill="#52514e" text-anchor="middle">0</text>
+<line x1="916.7" y1="103.8" x2="916.7" y2="239.8" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="916.7" y="255.4" font-size="12" fill="#52514e" text-anchor="middle">+0.1</text>
+<line x1="984.0" y1="103.8" x2="984.0" y2="239.8" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="984.0" y="255.4" font-size="12" fill="#52514e" text-anchor="middle">+0.2</text>
+<line x1="849.4" y1="103.8" x2="849.4" y2="239.8" stroke="#52514e" stroke-width="1" stroke-linecap="butt"/>
+<text x="849.4" y="272.2" font-size="12" fill="#52514e" text-anchor="middle">usefulness U</text>
+<text x="562.1" y="125.3" font-size="13" fill="#0b0b0b" text-anchor="start">p &lt; 0.2 (14)</text>
+<text x="562.1" y="159.4" font-size="13" fill="#0b0b0b" text-anchor="start">p 0.2 to 0.5 (18)</text>
+<text x="562.1" y="193.4" font-size="13" fill="#0b0b0b" text-anchor="start">p 0.5 to 0.8 (20)</text>
+<text x="562.1" y="227.4" font-size="13" fill="#0b0b0b" text-anchor="start">p 0.8 to 0.99 (12)</text>
+<path d="M849.4,112.8 h-3.0 a3.0279375000000073,3.0279375000000073 0 0 0 -3.0279375000000073,3.0279375000000073 v9.9 a3.0279375000000073,3.0279375000000073 0 0 0 3.0279375000000073,3.0279375000000073 h3.0 z" fill="#2a78d6" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="857.4" y="125.0" font-size="12" fill="#52514e" text-anchor="start">-0.01</text>
+<path d="M849.4,146.8 h2.4 a2.355062500000031,2.355062500000031 0 0 1 2.355062500000031,2.355062500000031 v11.3 a2.355062500000031,2.355062500000031 0 0 1 -2.355062500000031,2.355062500000031 h-2.4 z" fill="#2a78d6" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="862.1" y="159.0" font-size="12" fill="#52514e" text-anchor="start">+0.01</text>
+<path d="M849.4,180.8 h-59.3 a4,4 0 0 0 -4,4 v8.0 a4,4 0 0 0 4,4 h59.3 z" fill="#2a78d6" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="857.4" y="193.0" font-size="12" fill="#52514e" text-anchor="start">-0.09</text>
+<path d="M849.4,214.8 h3.4 a3.3643750000000523,3.3643750000000523 0 0 1 3.3643750000000523,3.3643750000000523 v9.3 a3.3643750000000523,3.3643750000000523 0 0 1 -3.3643750000000523,3.3643750000000523 h-3.4 z" fill="#2a78d6" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="864.2" y="227.0" font-size="12" fill="#52514e" text-anchor="start">+0.01</text>
+<text x="562.1" y="292.6" font-size="12" fill="#52514e" text-anchor="start">OPSA's rarest tokens (p &lt; 0.2) are not hidden good steps. Its useful</text>
+<text x="562.1" y="308.8" font-size="12" fill="#52514e" text-anchor="start">share, 25%, is what sampling noise alone gives when every token has U =</text>
+<text x="562.1" y="325.0" font-size="12" fill="#52514e" text-anchor="start">0 (null 24% [14%, 34%]); the same holds for its 33% harmful share.</text>
+</svg>

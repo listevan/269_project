@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="335" viewBox="0 0 900 335" font-family="Inter, Helvetica, Arial, sans-serif" font-size="13">
+<rect width="900" height="335" fill="#ffffff"/>
+<text x="24.0" y="28.0" font-size="16" fill="#0b0b0b" text-anchor="start" font-weight="600">Where the checkpoint's gain sits: problems grouped by what the base did with them</text>
+<text x="24.0" y="49.6" font-size="12" fill="#52514e" text-anchor="start">OPSA checkpoint minus base, paired over problems; 95% intervals. The frozen-model control moves pass@1 by -0.006 [-0.032,</text>
+<text x="24.0" y="65.2" font-size="12" fill="#52514e" text-anchor="start">+0.021].</text>
+<circle cx="29.0" cy="81.4" r="5" fill="#2a78d6"/>
+<text x="40.0" y="85.6" font-size="12" fill="#52514e" text-anchor="start">change in pass@1</text>
+<circle cx="178.6" cy="81.4" r="5" fill="#eb6834"/>
+<text x="189.6" y="85.6" font-size="12" fill="#52514e" text-anchor="start">change in pass@8</text>
+<line x1="319.7" y1="104.8" x2="319.7" y2="288.4" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="319.7" y="304.0" font-size="12" fill="#52514e" text-anchor="middle">-0.2</text>
+<line x1="431.0" y1="104.8" x2="431.0" y2="288.4" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="431.0" y="304.0" font-size="12" fill="#52514e" text-anchor="middle">0</text>
+<line x1="542.2" y1="104.8" x2="542.2" y2="288.4" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="542.2" y="304.0" font-size="12" fill="#52514e" text-anchor="middle">+0.2</text>
+<line x1="653.5" y1="104.8" x2="653.5" y2="288.4" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="653.5" y="304.0" font-size="12" fill="#52514e" text-anchor="middle">+0.4</text>
+<line x1="764.7" y1="104.8" x2="764.7" y2="288.4" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="764.7" y="304.0" font-size="12" fill="#52514e" text-anchor="middle">+0.6</text>
+<line x1="876.0" y1="104.8" x2="876.0" y2="288.4" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="876.0" y="304.0" font-size="12" fill="#52514e" text-anchor="middle">+0.8</text>
+<line x1="431.0" y1="104.8" x2="431.0" y2="288.4" stroke="#52514e" stroke-width="1" stroke-linecap="butt"/>
+<text x="597.8" y="320.8" font-size="12" fill="#52514e" text-anchor="middle">OPSA checkpoint minus base</text>
+<text x="24.0" y="132.3" font-size="13" fill="#0b0b0b" text-anchor="start">all 100 problems</text>
+<text x="24.0" y="178.2" font-size="13" fill="#0b0b0b" text-anchor="start">base solved all 16 of 16 attempts (33)</text>
+<text x="24.0" y="224.1" font-size="13" fill="#0b0b0b" text-anchor="start">base solved some (56)</text>
+<text x="24.0" y="270.0" font-size="13" fill="#0b0b0b" text-anchor="start">base solved none of 16 (11)</text>
+<line x1="483.3" y1="119.2" x2="538.3" y2="119.2" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="508.8" cy="119.2" r="7" fill="#ffffff"/>
+<circle cx="508.8" cy="119.2" r="5" fill="#2a78d6"/>
+<line x1="431.0" y1="136.2" x2="497.7" y2="136.2" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="464.3" cy="136.2" r="7" fill="#ffffff"/>
+<circle cx="464.3" cy="136.2" r="5" fill="#eb6834"/>
+<line x1="424.8" y1="165.1" x2="449.9" y2="165.1" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="435.4" cy="165.1" r="7" fill="#ffffff"/>
+<circle cx="435.4" cy="165.1" r="5" fill="#2a78d6"/>
+<line x1="431.0" y1="182.1" x2="431.0" y2="182.1" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="431.0" cy="182.1" r="7" fill="#ffffff"/>
+<circle cx="431.0" cy="182.1" r="5" fill="#eb6834"/>
+<line x1="505.5" y1="211.1" x2="590.1" y2="211.1" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="547.8" cy="211.1" r="7" fill="#ffffff"/>
+<circle cx="547.8" cy="211.1" r="5" fill="#2a78d6"/>
+<line x1="400.9" y1="228.1" x2="480.5" y2="228.1" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="441.0" cy="228.1" r="7" fill="#ffffff"/>
+<circle cx="441.0" cy="228.1" r="5" fill="#eb6834"/>
+<line x1="449.9" y1="256.9" x2="633.5" y2="256.9" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="532.2" cy="256.9" r="7" fill="#ffffff"/>
+<circle cx="532.2" cy="256.9" r="5" fill="#2a78d6"/>
+<line x1="532.2" y1="273.9" x2="835.4" y2="273.9" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="684.1" cy="273.9" r="7" fill="#ffffff"/>
+<circle cx="684.1" cy="273.9" r="5" fill="#eb6834"/>
+</svg>

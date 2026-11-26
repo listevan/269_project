@@ -86,6 +86,13 @@ Python 3.12 only, so on another machine the group reduces to its pure-Python pac
 torch.compile and its kernels) needs a C compiler at run time; on a machine without gcc the vLLM stages point it
 at `tools/rocm_cc`, a wrapper around the clang that the pip ROCm SDK ships.
 
+### Poster
+
+`docs/poster/plan.md` is the poster plan (story, panels, numbers, figures). `tools/poster_figures.py` draws the
+figures as SVG from the committed tables (`docs/poster/*.svg`; `--scale 1.3` gives poster type), and
+`tools/poster_build.js` lays out the 48 x 36 in PowerPoint file `docs/poster/poster_48x36.pptx` with pptxgenjs.
+`tools/poster_make.sh` runs all three (needs node with pptxgenjs on `NODE_PATH`, and rsvg-convert).
+
 ## Run it (Colab)
 
 1. Open `notebooks/token_replay_pilot.ipynb` in Colab (File > Open notebook > GitHub, repo

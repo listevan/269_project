@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="373" viewBox="0 0 1000 373" font-family="Inter, Helvetica, Arial, sans-serif" font-size="13">
+<rect width="1000" height="373" fill="#ffffff"/>
+<text x="24.0" y="28.0" font-size="16" fill="#0b0b0b" text-anchor="start" font-weight="600">Study 2, behaviour. Did punishment-only training remove refusals? Not detectably.</text>
+<text x="24.0" y="49.6" font-size="12" fill="#52514e" text-anchor="start">Released Tuwhy/Qwen3-1.7B-OPSA against its base, paired over SUM's 284 problems; 95% intervals.</text>
+<circle cx="29.0" cy="65.8" r="5" fill="#86b6ef"/>
+<text x="40.0" y="70.0" font-size="12" fill="#52514e" text-anchor="start">base model (2 seeds x 8 samples, 4,096-token cap)</text>
+<circle cx="396.4" cy="65.8" r="5" fill="#2a78d6"/>
+<text x="407.4" y="70.0" font-size="12" fill="#52514e" text-anchor="start">OPSA checkpoint (1 sample, 16,384-token cap)</text>
+<line x1="391.2" y1="114.4" x2="391.2" y2="326.9" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="391.2" y="342.5" font-size="12" fill="#52514e" text-anchor="middle">0</text>
+<line x1="478.8" y1="114.4" x2="478.8" y2="326.9" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="478.8" y="342.5" font-size="12" fill="#52514e" text-anchor="middle">0.2</text>
+<line x1="566.5" y1="114.4" x2="566.5" y2="326.9" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="566.5" y="342.5" font-size="12" fill="#52514e" text-anchor="middle">0.4</text>
+<line x1="654.1" y1="114.4" x2="654.1" y2="326.9" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="654.1" y="342.5" font-size="12" fill="#52514e" text-anchor="middle">0.6</text>
+<line x1="741.8" y1="114.4" x2="741.8" y2="326.9" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="741.8" y="342.5" font-size="12" fill="#52514e" text-anchor="middle">0.8</text>
+<text x="588.4" y="359.3" font-size="12" fill="#52514e" text-anchor="middle">share of responses</text>
+<text x="825.6" y="108.4" font-size="12" fill="#52514e" text-anchor="start">OPSA minus base [95% CI]</text>
+<text x="24.0" y="140.2" font-size="13" fill="#0b0b0b" text-anchor="start">refuses the unanswerable problem (all responses)</text>
+<text x="24.0" y="182.7" font-size="13" fill="#0b0b0b" text-anchor="start">refuses (finished responses only)</text>
+<text x="24.0" y="225.2" font-size="13" fill="#0b0b0b" text-anchor="start">gives a false answer (finished only)</text>
+<text x="24.0" y="267.7" font-size="13" fill="#0b0b0b" text-anchor="start">never finishes, even at 16,384 tokens</text>
+<text x="24.0" y="310.2" font-size="13" fill="#0b0b0b" text-anchor="start">solves the solvable original (finished only)</text>
+<line x1="543.7" y1="135.7" x2="506.9" y2="135.7" stroke="#b5b4ae" stroke-width="2" stroke-linecap="round"/>
+<circle cx="543.7" cy="135.7" r="8" fill="#ffffff"/>
+<circle cx="543.7" cy="135.7" r="6" fill="#86b6ef"/>
+<circle cx="506.9" cy="135.7" r="8" fill="#ffffff"/>
+<circle cx="506.9" cy="135.7" r="6" fill="#2a78d6"/>
+<text x="825.6" y="139.8" font-size="12" fill="#52514e" text-anchor="start">-0.084 [-0.126, -0.041]</text>
+<line x1="545.0" y1="178.2" x2="529.2" y2="178.2" stroke="#b5b4ae" stroke-width="2" stroke-linecap="round"/>
+<circle cx="545.0" cy="178.2" r="8" fill="#ffffff"/>
+<circle cx="545.0" cy="178.2" r="6" fill="#86b6ef"/>
+<circle cx="529.2" cy="178.2" r="8" fill="#ffffff"/>
+<circle cx="529.2" cy="178.2" r="6" fill="#2a78d6"/>
+<text x="825.6" y="182.3" font-size="12" fill="#52514e" text-anchor="start">-0.037 [-0.088, +0.014]</text>
+<line x1="675.6" y1="220.7" x2="691.4" y2="220.7" stroke="#b5b4ae" stroke-width="2" stroke-linecap="round"/>
+<circle cx="675.6" cy="220.7" r="8" fill="#ffffff"/>
+<circle cx="675.6" cy="220.7" r="6" fill="#86b6ef"/>
+<circle cx="691.4" cy="220.7" r="8" fill="#ffffff"/>
+<circle cx="691.4" cy="220.7" r="6" fill="#2a78d6"/>
+<text x="825.6" y="224.8" font-size="12" fill="#52514e" text-anchor="start">+0.037 [-0.014, +0.086]</text>
+<line x1="395.1" y1="263.1" x2="449.9" y2="263.1" stroke="#b5b4ae" stroke-width="2" stroke-linecap="round"/>
+<circle cx="395.1" cy="263.1" r="8" fill="#ffffff"/>
+<circle cx="395.1" cy="263.1" r="6" fill="#86b6ef"/>
+<circle cx="449.9" cy="263.1" r="8" fill="#ffffff"/>
+<circle cx="449.9" cy="263.1" r="6" fill="#2a78d6"/>
+<text x="825.6" y="267.3" font-size="12" fill="#52514e" text-anchor="start">+0.125 [+0.088, +0.162]</text>
+<line x1="622.6" y1="305.6" x2="728.2" y2="305.6" stroke="#b5b4ae" stroke-width="2" stroke-linecap="round"/>
+<circle cx="622.6" cy="305.6" r="8" fill="#ffffff"/>
+<circle cx="622.6" cy="305.6" r="6" fill="#86b6ef"/>
+<circle cx="728.2" cy="305.6" r="8" fill="#ffffff"/>
+<circle cx="728.2" cy="305.6" r="6" fill="#2a78d6"/>
+<text x="825.6" y="309.8" font-size="12" fill="#52514e" text-anchor="start">+0.241 [+0.197, +0.289]</text>
+</svg>

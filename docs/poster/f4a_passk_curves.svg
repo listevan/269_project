@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="354" viewBox="0 0 560 354" font-family="Inter, Helvetica, Arial, sans-serif" font-size="13">
+<rect width="560" height="354" fill="#ffffff"/>
+<text x="24.0" y="28.0" font-size="16" fill="#0b0b0b" text-anchor="start" font-weight="600">Experiments 2 and 7. pass@k on 100 MATH-500 problems</text>
+<text x="24.0" y="49.6" font-size="12" fill="#52514e" text-anchor="start">Levels 3 to 5, 8 samples per problem, graded on the last boxed answer.</text>
+<circle cx="29.0" cy="65.8" r="5" fill="#2a78d6"/>
+<text x="40.0" y="70.0" font-size="12" fill="#52514e" text-anchor="start">OPSA checkpoint</text>
+<circle cx="172.0" cy="65.8" r="5" fill="#eb6834"/>
+<text x="183.0" y="70.0" font-size="12" fill="#52514e" text-anchor="start">base, T = 1.0</text>
+<circle cx="301.8" cy="65.8" r="5" fill="#b5b4ae"/>
+<text x="312.8" y="70.0" font-size="12" fill="#52514e" text-anchor="start">base, T = 0.4 (sharpest sampler)</text>
+<text x="24.0" y="102.4" font-size="12" fill="#52514e" text-anchor="start">pass@k</text>
+<line x1="55.8" y1="310.0" x2="408.0" y2="310.0" stroke="#52514e" stroke-width="1" stroke-linecap="butt"/>
+<text x="47.8" y="314.2" font-size="12" fill="#52514e" text-anchor="end">0.6</text>
+<line x1="55.8" y1="259.0" x2="408.0" y2="259.0" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="47.8" y="263.2" font-size="12" fill="#52514e" text-anchor="end">0.7</text>
+<line x1="55.8" y1="208.0" x2="408.0" y2="208.0" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="47.8" y="212.2" font-size="12" fill="#52514e" text-anchor="end">0.8</text>
+<line x1="55.8" y1="157.0" x2="408.0" y2="157.0" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="47.8" y="161.2" font-size="12" fill="#52514e" text-anchor="end">0.9</text>
+<line x1="55.8" y1="106.0" x2="408.0" y2="106.0" stroke="#e6e5e1" stroke-width="1" stroke-linecap="butt"/>
+<text x="47.8" y="110.2" font-size="12" fill="#52514e" text-anchor="end">1.0</text>
+<text x="55.8" y="325.6" font-size="12" fill="#52514e" text-anchor="middle">1</text>
+<text x="106.1" y="325.6" font-size="12" fill="#52514e" text-anchor="middle">2</text>
+<text x="156.4" y="325.6" font-size="12" fill="#52514e" text-anchor="middle">3</text>
+<text x="206.7" y="325.6" font-size="12" fill="#52514e" text-anchor="middle">4</text>
+<text x="257.1" y="325.6" font-size="12" fill="#52514e" text-anchor="middle">5</text>
+<text x="307.4" y="325.6" font-size="12" fill="#52514e" text-anchor="middle">6</text>
+<text x="357.7" y="325.6" font-size="12" fill="#52514e" text-anchor="middle">7</text>
+<text x="408.0" y="325.6" font-size="12" fill="#52514e" text-anchor="middle">8</text>
+<text x="231.9" y="342.4" font-size="12" fill="#52514e" text-anchor="middle">k, attempts per problem</text>
+<path d="M55.8,199.8 L106.1,174.8 L156.4,165.7 L206.7,159.5 L257.1,154.4 L307.4,149.9 L357.7,145.8 L408.0,141.7" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="55.8" cy="199.8" r="6" fill="#ffffff"/>
+<circle cx="55.8" cy="199.8" r="4" fill="#2a78d6"/>
+<circle cx="106.1" cy="174.8" r="6" fill="#ffffff"/>
+<circle cx="106.1" cy="174.8" r="4" fill="#2a78d6"/>
+<circle cx="156.4" cy="165.7" r="6" fill="#ffffff"/>
+<circle cx="156.4" cy="165.7" r="4" fill="#2a78d6"/>
+<circle cx="206.7" cy="159.5" r="6" fill="#ffffff"/>
+<circle cx="206.7" cy="159.5" r="4" fill="#2a78d6"/>
+<circle cx="257.1" cy="154.4" r="6" fill="#ffffff"/>
+<circle cx="257.1" cy="154.4" r="4" fill="#2a78d6"/>
+<circle cx="307.4" cy="149.9" r="6" fill="#ffffff"/>
+<circle cx="307.4" cy="149.9" r="4" fill="#2a78d6"/>
+<circle cx="357.7" cy="145.8" r="6" fill="#ffffff"/>
+<circle cx="357.7" cy="145.8" r="4" fill="#2a78d6"/>
+<circle cx="408.0" cy="141.7" r="6" fill="#ffffff"/>
+<circle cx="408.0" cy="141.7" r="4" fill="#2a78d6"/>
+<path d="M55.8,271.2 L106.1,221.3 L156.4,200.9 L206.7,190.2 L257.1,184.0 L307.4,179.4 L357.7,175.4 L408.0,172.3" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="55.8" cy="271.2" r="6" fill="#ffffff"/>
+<circle cx="55.8" cy="271.2" r="4" fill="#eb6834"/>
+<circle cx="106.1" cy="221.3" r="6" fill="#ffffff"/>
+<circle cx="106.1" cy="221.3" r="4" fill="#eb6834"/>
+<circle cx="156.4" cy="200.9" r="6" fill="#ffffff"/>
+<circle cx="156.4" cy="200.9" r="4" fill="#eb6834"/>
+<circle cx="206.7" cy="190.2" r="6" fill="#ffffff"/>
+<circle cx="206.7" cy="190.2" r="4" fill="#eb6834"/>
+<circle cx="257.1" cy="184.0" r="6" fill="#ffffff"/>
+<circle cx="257.1" cy="184.0" r="4" fill="#eb6834"/>
+<circle cx="307.4" cy="179.4" r="6" fill="#ffffff"/>
+<circle cx="307.4" cy="179.4" r="4" fill="#eb6834"/>
+<circle cx="357.7" cy="175.4" r="6" fill="#ffffff"/>
+<circle cx="357.7" cy="175.4" r="4" fill="#eb6834"/>
+<circle cx="408.0" cy="172.3" r="6" fill="#ffffff"/>
+<circle cx="408.0" cy="172.3" r="4" fill="#eb6834"/>
+<path d="M55.8,269.7 L106.1,229.9 L156.4,212.6 L206.7,203.4 L257.1,197.8 L307.4,193.2 L357.7,190.2 L408.0,187.6" fill="none" stroke="#b5b4ae" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="55.8" cy="269.7" r="6" fill="#ffffff"/>
+<circle cx="55.8" cy="269.7" r="4" fill="#b5b4ae"/>
+<circle cx="106.1" cy="229.9" r="6" fill="#ffffff"/>
+<circle cx="106.1" cy="229.9" r="4" fill="#b5b4ae"/>
+<circle cx="156.4" cy="212.6" r="6" fill="#ffffff"/>
+<circle cx="156.4" cy="212.6" r="4" fill="#b5b4ae"/>
+<circle cx="206.7" cy="203.4" r="6" fill="#ffffff"/>
+<circle cx="206.7" cy="203.4" r="4" fill="#b5b4ae"/>
+<circle cx="257.1" cy="197.8" r="6" fill="#ffffff"/>
+<circle cx="257.1" cy="197.8" r="4" fill="#b5b4ae"/>
+<circle cx="307.4" cy="193.2" r="6" fill="#ffffff"/>
+<circle cx="307.4" cy="193.2" r="4" fill="#b5b4ae"/>
+<circle cx="357.7" cy="190.2" r="6" fill="#ffffff"/>
+<circle cx="357.7" cy="190.2" r="4" fill="#b5b4ae"/>
+<circle cx="408.0" cy="187.6" r="6" fill="#ffffff"/>
+<circle cx="408.0" cy="187.6" r="4" fill="#b5b4ae"/>
+<text x="420.0" y="145.9" font-size="12" fill="#52514e" text-anchor="start">0.93 OPSA checkpoint</text>
+<text x="420.0" y="176.5" font-size="12" fill="#52514e" text-anchor="start">0.87 base, T = 1.0</text>
+<text x="420.0" y="191.8" font-size="12" fill="#52514e" text-anchor="start">0.84 base, T = 0.4</text>
+</svg>
